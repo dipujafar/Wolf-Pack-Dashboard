@@ -16,7 +16,7 @@ type TDataType = {
   date: string;
   type: string;
 };
-const data: TDataType[] = Array.from({ length: 6 }).map((data, inx) => ({
+const data: TDataType[] = Array.from({ length: 5 }).map((data, inx) => ({
   key: inx,
   serial: inx + 1,
   name: "Muskan Tanaz",
@@ -66,7 +66,6 @@ const RecentlyUser = () => {
       title: "Account Type",
       dataIndex: "type",
       align: "center",
-    
     },
 
     {
@@ -102,10 +101,7 @@ const RecentlyUser = () => {
   ];
 
   return (
-    <div className="bg-[#F9F9FA] rounded-2xl">
-      <h1 className="  text-xl font-semibold text-text-color px-3 py-5">
-        Recent Users
-      </h1>
+    <div className="rounded-2xl">
       <DataTable columns={columns} data={data}></DataTable>
       <UserDetails open={open} setOpen={setOpen}></UserDetails>
     </div>

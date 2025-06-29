@@ -8,13 +8,13 @@ const StatContainer = () => {
         title="Total Closer"
         value="200"
         change={{ value: "+11.01%", positive: true }}
-        className="bg-[#fff]/10 border border-[#EBEBEB]"
+        className="bg-[#fff]/15 border border-[#EBEBEB]/50"
       />
       <StatCard
         title="Total Client"
         value="500"
         change={{ value: "+6.08%", positive: true }}
-         className="bg-[#fff]/10 border border-[#EBEBEB]"
+         className="bg-[#fff]/15 border border-[#EBEBEB]/50"
       />
       
     </div>

@@ -10,7 +10,7 @@
   --color-main-bg: #F7F7F7;
   --color-section-bg: #fff;
   --color-menu-item: #fff;
-  --color-text-color: #000;
+  --color-text-color: #fff;
   --color-primary-green: #41ab5d;
   --color-primary-red: #b84d4d;
   --color-primary-white: #fff;
@@ -32,6 +32,25 @@
   font-family: "Poppins", sans-serif;
 }
 
+
+/* -------------- layout content ------------ */
+.ant-layout-content{
+  @apply bg-gradient-to-r from-[#3A3013] via-[#584B13] to-[#3A3013] 
+}
+
+.ant-layout-sider {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-primary-white) !important;
+  /* border-right: 1px solid #0000001a !important; */
+}
+
+
+
+/* ----------------------ant table -------------- */
+.ant-table-wrapper .ant-table-tbody{
+  @apply bg-gradient-to-r from-[#3A3013] via-[#584B13] to-[#3A3013]
+}
+
 .ant-menu-title-content {
   font-size: 14px;
   color: #FCB806 !important;
@@ -42,11 +61,7 @@
   color: #FCB806 !important;
 }
 
-.ant-layout-sider {
-  background-color: var(--color-secondary) !important;
-  color: var(--color-primary-white) !important;
-  /* border-right: 1px solid #0000001a !important; */
-}
+
 
 .sidebar-menu {
   background-color: var(--color-secondary) !important;
@@ -142,6 +157,8 @@
   border-radius: 5px !important;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06)
 }
+
+
 
 @layer base {
   :root {

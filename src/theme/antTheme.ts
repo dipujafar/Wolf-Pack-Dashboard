@@ -13,12 +13,11 @@ const antTheme = {
       fontSize: 12,
     },
     Table: {
-      headerBg: "#214246",
+      headerBg: "#E5A705",
       headerColor: "#fff",
-      colorBgContainer: "#F9F9FA",
-      headerSplitColor: "#214246",
-      colorText: "#5C5C5C",
-      borderColor: "var(--color-section-bg)",
+      headerSplitColor: "#E5A705",
+      colorText: "#e9e6db",
+      borderColor: "none",
       rowHoverBg: "#21424617",
     },
     Modal: {

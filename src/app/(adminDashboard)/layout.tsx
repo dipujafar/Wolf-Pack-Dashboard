@@ -62,10 +62,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             style={{
               padding: 27,
               minHeight: 280,
-              background: "var(--color-main-bg)",
+              // background: "var(--color-main-bg)",
               // borderRadius: borderRadiusLG,
               height: "80vh",
               overflow: "auto",
+              // backgroundImage: "url('/main-bg.png')"
+              // back
             }}
           >
             {children}

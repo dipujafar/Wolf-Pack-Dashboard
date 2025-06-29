@@ -40,10 +40,10 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
   const [selectedYear, setSetSelectedYear] = useState(currentYear);
 
   return (
-    <Card className={`p-6 bg-[#F9F9FA] border-none rounded-2xl  ${className}`}>
+    <Card className={`p-6 bg-[#F9F9FA]/15 border-none rounded-2xl  ${className}`}>
       <div className="flex justify-between items-center mb-5">
         <div className="flex-1 border-r-2 border-[#00000033]">
-          <CardTitle className="text-xl font-semibold flex items-center">
+          <CardTitle className="text-xl font-semibold flex items-center text-text-color">
             Earnings Overview
           </CardTitle>
         </div>
@@ -51,12 +51,12 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
         <div className="flex-1">
           <div className="w-fit ml-auto ">
             <Popover>
-              <PopoverTrigger className="rounded-full" asChild>
+              <PopoverTrigger className="rounded-full bg-white/20 text-white border-none" asChild>
                 <Button variant="outline" size="sm" className="h-8">
                   {selectedYear} <ChevronDown className="ml-1 h-4 w-4" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-24 p-0">
+              <PopoverContent className="w-24 p-0 bg-white/30 text-white border-none">
                 <div className="flex flex-col">
                   {lastFiveYears?.map((year) => (
                     <Button
@@ -90,8 +90,8 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
             >
               <defs>
                 <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="20%" stopColor="#347172" opacity={0.9}  />
-                  <stop offset="80%" stopColor="#347172" stopOpacity={0.08} />
+                  <stop offset="20%" stopColor="#DDAD2E" opacity={0.9}  />
+                  <stop offset="80%" stopColor="#A28F59" stopOpacity={0.08} />
                 </linearGradient>
               </defs>
               <XAxis
@@ -105,20 +105,21 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
                 tickLine={false}
                 tick={{ fontSize: 12 }}
                 tickFormatter={(value) => `${value / 1000}k`}
+              
               />
               <ChartTooltip content={<CustomTooltip />} />
 
               <Area
                 type="monotone"
                 dataKey="expense"
-                stroke="#00000066"
+                stroke="#FCB806"
                 strokeWidth={1}
                 fillOpacity={1}
                 fill="url(#colorExpense)"
                 activeDot={{
                   r: 6,
-                  fill: "#8b5cf6",
-                  stroke: "#F7F7F8",
+                  fill: "#fff",
+                  stroke: "#fff",
                   strokeWidth: 2,
                 }}
               />

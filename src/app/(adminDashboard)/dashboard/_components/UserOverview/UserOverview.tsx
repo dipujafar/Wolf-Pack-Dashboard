@@ -14,8 +14,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // Sample data for the user overview chart - matches the image pattern
 const userData = [
   { month: 'Jan', users: 15000, color: '#a78bfa' },  // Light purple
-  { month: 'Feb', users: 28000, color: '#67e8f9' },  // Teal
-  { month: 'Mar', users: 20000, color: '#000000' },  // Black
+  { month: 'Feb', users: 28000, color: '#FEDE8C' },  // Teal
+  { month: 'Mar', users: 20000, color: '#fff' },  // Black
   { month: 'Apr', users: 27000, color: '#93c5fd' },  // Blue
   { month: 'May', users: 12000, color: '#93c5fd' },  // Blue
   { month: 'Jun', users: 22000, color: '#86efac' },  // Green
@@ -56,8 +56,7 @@ const CustomBar = (props: any) => {
       y={y}
       width={width}
       height={height}
-      fill={"#204C48"}
-      
+      fill={"#DDAD2E"}
       rx={4}
       ry={4}
     />
@@ -66,9 +65,9 @@ const CustomBar = (props: any) => {
 
 export const UserOverview: React.FC = () => {
   return (
-    <Card className="w-full bg-[#F9F9FA] border-none">
+    <Card className="w-full bg-[#F9F9FA]/15 border-none">
       <CardHeader className="flex flex-row items-center justify-between pb-2 mb-5">
-        <CardTitle className="text-xl font-semibold flex items-center">
+        <CardTitle className="text-xl font-semibold flex items-center text-text-color">
         
           User Overview
         </CardTitle>
@@ -101,7 +100,7 @@ export const UserOverview: React.FC = () => {
                 dataKey="users" 
                 shape={<CustomBar />}
                 isAnimationActive={true}
-                barSize={15}
+                barSize={18}
                 radius={[10, 0, 0, 0]}
               />
             </BarChart>
