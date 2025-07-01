@@ -34,7 +34,7 @@ interface EarningsChartProps {
   className?: string;
 }
 
-const EarningsChart = ({ className }: EarningsChartProps) => {
+const Performance = ({ className }: EarningsChartProps) => {
   const currentYear = new Date().getFullYear();
   const lastFiveYears = Array.from({ length: 5 }, (_, i) => currentYear - i);
   const [selectedYear, setSetSelectedYear] = useState(currentYear);
@@ -46,12 +46,9 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
       <div className="flex justify-between items-center mb-5">
         <div className="flex-1 ">
           <CardTitle className="text-xl font-semibold flex items-center text-text-color">
-            Earnings Overview
+            Performance Overview
           </CardTitle>
         </div>
-
-        {/* ----------------------- growth percentage */}
-        <p className="text-sm text-white"> Monthly Growth: 35.80%</p>
 
         <div className="flex-1">
           <div className="w-fit ml-auto ">
@@ -88,7 +85,7 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
           config={{
             expense: { theme: { light: "#F9F9FA", dark: "#EEEEEFss" } }, // Rose
           }}
-          className="h-[300px] w-full"
+          className="h-[350px] w-full"
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
@@ -99,7 +96,7 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
               <defs>
                 <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="20%" stopColor="#DDAD2E" opacity={0.9} />
-                  <stop offset="80%" stopColor="#A28F59" stopOpacity={0.08} />
+                  <stop offset="80%" stopColor="#fff" stopOpacity={0.08} />
                 </linearGradient>
               </defs>
               <XAxis
@@ -107,7 +104,6 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 12 }}
-                
               />
               <YAxis
                 axisLine={false}
@@ -139,4 +135,4 @@ const EarningsChart = ({ className }: EarningsChartProps) => {
   );
 };
 
-export default EarningsChart;
+export default Performance;

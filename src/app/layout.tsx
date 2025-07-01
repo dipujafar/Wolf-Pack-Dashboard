@@ -14,7 +14,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "Admin Dashboard | EEZ",
+    default: "Admin Dashboard | Wolf Pack",
     template: "%s | SoleSwap",
   },
   description: "This is Official Application Dashboard for SoleSwap",

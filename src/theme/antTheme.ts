@@ -18,7 +18,7 @@ const antTheme = {
       headerSplitColor: "#E5A705",
       colorText: "#e9e6db",
       borderColor: "none",
-      rowHoverBg: "#21424617",
+      rowHoverBg: "#ffffff17",
     },
     Modal: {
       colorIcon: "rgba(255,255,255,0.45)",
@@ -32,6 +32,9 @@ const antTheme = {
     },
     Popconfirm: {
       colorWarning: "rgb(205,3,53)",
+    },
+    Tabs: {
+      itemColor: "rgba(255,255,255,0.88)",
     },
     Form: {
       // labelFontSize: 16,

@@ -2,7 +2,9 @@ import { RiDashboardHorizontalFill, RiLogoutCircleLine } from "react-icons/ri";
 import { GoPeople } from "react-icons/go";
 import Link from "next/link";
 import {
+  AlignJustify,
   Award,
+  ChartColumnIncreasing,
   ListChecks,
   LogOut,
   Star,
@@ -18,18 +20,33 @@ export const navLinks = [
     label: <Link href={"/dashboard"}>Dashboard</Link>,
   },
   {
+    key: "closer",
+    icon: <GoPeople size={18} />,
+    label: <Link href={"/closer"}>Closers Management</Link>,
+  },
+  {
+    key: "client",
+    icon: <AlignJustify size={18} />,
+    label: <Link href={"/client"}>Clients Management</Link>,
+  },
+  {
+    key: "tracks-sales",
+    icon: <ChartColumnIncreasing size={18} />,
+    label: <Link href={"/tracks-sales"}>Tracks Sales</Link>,
+  },
+  {
     key: "customers",
     icon: <GoPeople size={18} />,
     label: <Link href={"/customers"}>Account Details</Link>,
   },
   {
     key: "manage-features",
-    icon: <ListChecks  size={18} />,
+    icon: <ListChecks size={18} />,
     label: <Link href={"/manage-features"}>Manage Features</Link>,
   },
   {
     key: "manage-specialist",
-    icon: <Award  size={18} />,
+    icon: <Award size={18} />,
     label: <Link href={"/manage-specialist"}>Manage Specialist</Link>,
   },
   {
@@ -55,8 +72,12 @@ export const navLinks = [
   {
     key: "logout",
     icon: <LogOut size={18} />,
-    label: <Link href={"/login"} className="!text-[#5F1011]">Logout</Link>,
-  }
+    label: (
+      <Link href={"/login"} className="!text-[#5F1011]">
+        Logout
+      </Link>
+    ),
+  },
   //   {
   //     key: "user-request",
   //     icon: <PiListPlusFill size={20} />,

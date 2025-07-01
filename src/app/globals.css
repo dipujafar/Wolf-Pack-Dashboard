@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 :root {
-  --color-main: #214246;
+  --color-main: #FCB806;
   --color-secondary: #111827;
   --color-main-bg: #F7F7F7;
   --color-section-bg: #fff;
@@ -153,12 +153,33 @@
 
 /* =================== tabs related style  =============================== */
 .ant-tabs-nav-wrap{
-  background-color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.09) !important;
   border-radius: 5px !important;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06)
 }
 
 
+/* =================== ant table filter related style ================================ */
+ .ant-dropdown-menu{
+
+  background: #bd8e17 !important;
+  color: #ffffff !important;
+}
+
+/* ------------------------- ant input related style --------------------- */
+.ant-input::placeholder{
+  color: #f2f2c9 !important;
+}
+
+.scroll-hide::-webkit-scrollbar {
+  scrollbar-width: none;
+}
+
+
+/* ========================= rechart related style ================================ */
+tspan{
+  fill: #ffffff !important;
+}
 
 @layer base {
   :root {
