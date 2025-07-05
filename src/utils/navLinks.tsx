@@ -35,34 +35,9 @@ export const navLinks = [
     label: <Link href={"/tracks-sales"}>Tracks Sales</Link>,
   },
   {
-    key: "customers",
-    icon: <GoPeople size={18} />,
-    label: <Link href={"/customers"}>Account Details</Link>,
-  },
-  {
-    key: "manage-features",
-    icon: <ListChecks size={18} />,
-    label: <Link href={"/manage-features"}>Manage Features</Link>,
-  },
-  {
-    key: "manage-specialist",
-    icon: <Award size={18} />,
-    label: <Link href={"/manage-specialist"}>Manage Specialist</Link>,
-  },
-  {
     key: "earning",
     icon: <Wallet size={18} />,
     label: <Link href={"/earning"}>Earning</Link>,
-  },
-  {
-    key: "subscriptions",
-    icon: <WalletCards size={18} />,
-    label: <Link href={"/subscriptions"}>Subscriptions</Link>,
-  },
-  {
-    key: "manage-content-type",
-    icon: <Star size={18} />,
-    label: <Link href={"/manage-content-type"}>Manage Content Type</Link>,
   },
   {
     key: "settings",
