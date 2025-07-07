@@ -57,7 +57,7 @@ const NotificationContainer = () => {
   );
   return (
     <div>
-      <div className="min-h-[80vh] bg-section-bg p-7">
+      <div className="min-h-[80vh] p-7">
         <h1 className="text-2xl text-text-color  mb-2">Notification</h1>
         <hr />
 

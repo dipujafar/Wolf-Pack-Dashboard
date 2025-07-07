@@ -5,6 +5,7 @@ import {
   AlignJustify,
   Award,
   ChartColumnIncreasing,
+  ClipboardList,
   ListChecks,
   LogOut,
   Star,
@@ -40,6 +41,16 @@ export const navLinks = [
     label: <Link href={"/earning"}>Earning</Link>,
   },
   {
+    key: "leaderboard",
+    icon: <ClipboardList size={18} />,
+    label: <Link href={"/leaderboard"}>Leaderboard Management</Link>,
+  },
+  {
+    key: "manage-badge",
+    icon: <Award size={18} />,
+    label: <Link href={"/manage-badge"}>Manage Badges</Link>,
+  },
+  {
     key: "settings",
     icon: <IoSettingsOutline size={18} />,
     label: <Link href={"/settings"}>Settings</Link>,
@@ -48,7 +59,7 @@ export const navLinks = [
     key: "logout",
     icon: <LogOut size={18} />,
     label: (
-      <Link href={"/login"} className="!text-[#5F1011]">
+      <Link href={"/login"} className='!text-[#5F1011]'>
         Logout
       </Link>
     ),

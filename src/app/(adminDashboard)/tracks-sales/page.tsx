@@ -1,5 +1,6 @@
 import { Tabs } from "antd";
 import SalesOverviewContainer from "./components/SalesOverview/SalesOverviewContainer";
+import TopCloser from "./components/SalesOverview/TopCloser";
 
 const tabData = [
   {
@@ -10,12 +11,12 @@ const tabData = [
   {
     label: "Top Closer",
     key: "2",
-    children: <p>dd</p>,
+    children: <TopCloser />,
   },
 ];
 
 const TracksSalesPage = () => {
-  return <Tabs defaultActiveKey="1" centered items={tabData} />;
+  return <Tabs defaultActiveKey='1' centered items={tabData} />;
 };
 
 export default TracksSalesPage;
