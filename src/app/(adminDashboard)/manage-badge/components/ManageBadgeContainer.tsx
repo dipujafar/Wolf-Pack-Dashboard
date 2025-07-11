@@ -1,6 +1,8 @@
 "use client";
+
 import image from "@/assets/image/adminProfile.png";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -9,32 +11,40 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Table, TableProps } from "antd";
-import { Plus, Search, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import AddBadgeForm from "./AddBadgeForm";
+import { Plus, Trash2 } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
+import { useState } from "react";
+import AddBadgeForm from "./AddBadgeForm";
 
 type TDataType = {
   key: number;
   name: string;
   image: string | StaticImageData;
   status: string;
+  serial: number;
+  description?: string;
   date: string;
 };
 
 const ManageBadgeContainer = () => {
   const [visible, setVisible] = useState(false);
+  const [selected, setSelected] = useState<Array<string>>([]);
 
-  const [data] = useState<TDataType[]>(
+  const [data, setData] = useState<TDataType[]>(
     Array.from({ length: 30 }).map((_, index) => ({
       key: index,
       name: `Closer ${index + 1}`,
       image: image,
       status: "Active",
+      serial: index + 1,
+      description: `Badge for closer ${index + 1}`,
       date: "11 Feb, 2025",
     })),
   );
+
+  const handleDelete = (key: number) => {
+    setData((prev) => prev.filter((item) => item.key !== key));
+  };
 
   const columns: TableProps<TDataType>["columns"] = [
     {
@@ -42,96 +52,85 @@ const ManageBadgeContainer = () => {
       dataIndex: "serial",
       align: "center",
       width: 80,
-      render: (text) => <span className='text-white'>#{text}</span>,
+      render: (serial) => <span className='text-white'>#{serial}</span>,
     },
     {
       title: "League Name",
       dataIndex: "name",
       align: "center",
-      render: (text, record) => (
+      render: (_, record) => (
         <div className='flex items-center justify-center gap-x-3'>
-          <Image
-            src={record.image}
-            alt='profile-picture'
-            width={40}
-            height={40}
-            className='size-10'
-          ></Image>
+          <Image src={record.image} alt='badge' width={40} height={40} className='rounded-full' />
           <p className='text-white'>{record.name}</p>
         </div>
       ),
     },
-
     {
       title: "Status",
       dataIndex: "status",
       filters: [
-        {
-          text: "Active",
-          value: "Active",
-        },
-        {
-          text: "Inactive",
-          value: "Inactive",
-        },
+        { text: "Active", value: "Active" },
+        { text: "Inactive", value: "Inactive" },
       ],
+      onFilter: (value, record) => record.status === value,
       align: "center",
-      render: (text) => <span className='text-white'>{text.toLocaleString()}</span>,
+      render: (status) => <span className='text-white'>{status}</span>,
     },
-
+    {
+      title: "Description",
+      dataIndex: "description",
+      align: "center",
+      render: (description) => <span className='text-white'>{description}</span>,
+    },
     {
       title: "Date & Time",
       dataIndex: "date",
       align: "center",
-      render: (text) => <span className='text-white'>{text}</span>,
+      render: (date) => <span className='text-white'>{date}</span>,
     },
+
     {
       title: "Action",
       dataIndex: "action",
       align: "center",
-      render: (text) => (
-        <div>
-          {/*<p className='text-white'>Edit</p>*/}
-          <Button size={"icon"} className='text-white bg-red-600 hover:bg-red-500'>
-            <Trash2 className='size-4' />
-          </Button>
-        </div>
+      render: (_, record) => (
+        <Button
+          size='icon'
+          className='text-white bg-red-600 hover:bg-red-500'
+          onClick={() => handleDelete(record.key)}
+        >
+          <Trash2 className='size-4' />
+        </Button>
       ),
     },
   ];
 
   return (
-    <div className='space-y-4'>
-      {/* Search and Filter Section */}
-      <Button onClick={() => setVisible((pre) => !pre)} className='bg-[#FCB806] w-full' size={"lg"}>
+    <div className='space-y-6'>
+      {/* Add Button */}
+      <Button onClick={() => setVisible(true)} className='bg-[#FCB806] w-full' size='lg'>
         <Plus className='size-4 text-white' />
         <span className='ml-2'>Add Badge</span>
       </Button>
-      <div className='flex flex-col sm:flex-row gap-4 items-end'>
-        <div className='flex-1 space-y-2'>
-          <Input
-            placeholder='Search here...'
-            className='!bg-gray-800 !text-white !border !border-[#FCB806]  hover:!border-[#FCB806] focus:!border-[#FCB806] py-5'
-          />
-        </div>
-        <div className='flex-1 space-y-2 '>
-          <Select onValueChange={(value) => console.log(value)} defaultValue={"1"}>
-            <SelectTrigger className='bg-gray-800  text-white focus:border-yellow-500 py-5 border-[#FCB806]'>
-              <SelectValue placeholder='Select Client to assign' />
-            </SelectTrigger>
-            <SelectContent className='bg-gray-800 border-gray-700'>
-              {[{ id: "1", name: "January" }].map((client) => (
-                <SelectItem
-                  key={client.id}
-                  value={client.id}
-                  className='text-white hover:bg-gray-700 focus:bg-gray-700'
-                >
-                  {client.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+
+      {/* Search and Filter */}
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 items-end'>
+        <Input
+          placeholder='Search here...'
+          className='flex-1 !bg-gray-800  !text-white !border !border-[#FCB806] py-5'
+        />
+        <Select defaultValue='1' onValueChange={(value) => console.log(value)}>
+          <SelectTrigger className='bg-gray-800 text-white border-[#FCB806] py-5'>
+            <SelectValue placeholder='Select Month' />
+          </SelectTrigger>
+          <SelectContent className='bg-gray-800 border-gray-700'>
+            {[{ id: "1", name: "January" }].map((month) => (
+              <SelectItem key={month.id} value={month.id} className='text-white hover:bg-gray-700'>
+                {month.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Table */}
@@ -139,15 +138,28 @@ const ManageBadgeContainer = () => {
         <Table
           columns={columns}
           dataSource={data}
-          pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: false,
+            hideOnSinglePage: true,
+          }}
           rowKey='key'
-          //rowSelection={rowSelection}
           className='custom-table'
-          style={{
-            backgroundColor: "#1f2937",
+          style={{ backgroundColor: "#1f2937" }}
+          rowSelection={{
+            onChange: (selectedRowKeys, selectedRows) => {
+              setSelected(selectedRows.map((row) => row.serial.toString()));
+            },
+            getCheckboxProps: (record) => {
+              return {
+                disabled: record.serial === 1,
+              };
+            },
           }}
         />
       </div>
+
+      {/* Add Badge Modal */}
       <AddBadgeForm open={visible} setOpen={setVisible} />
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -8,10 +9,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Table, TableProps } from "antd";
-import { Plus, Search, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import AddLeagueForm from "./AddLeagueForm";
-import { Input } from "@/components/ui/input";
 
 type TDataType = {
   key: number;

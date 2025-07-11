@@ -68,7 +68,7 @@ export default function AddLeagueForm({
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogContent className='sm:max-w-[500px] bg-gray-900 border-gray-800 text-white max-h-screen overflow-y-auto scroll-hide'>
         <DialogHeader className='flex flex-row items-center justify-between'>
-          <DialogTitle className='text-xl font-semibold text-center'>Closer management</DialogTitle>
+          <DialogTitle className='text-xl font-semibold text-center'>Add League</DialogTitle>
           <div className='border rounded-full flex justify-center items-center  border-red-500'>
             <Button
               variant='ghost'

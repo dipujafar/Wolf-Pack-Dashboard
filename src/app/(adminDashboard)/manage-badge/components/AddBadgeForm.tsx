@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
@@ -64,7 +65,7 @@ export default function AddBadgeForm({
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogContent className='sm:max-w-[500px] bg-gray-900 border-gray-800 text-white max-h-screen overflow-y-auto scroll-hide'>
         <DialogHeader className='flex flex-row items-center justify-between'>
-          <DialogTitle className='text-xl font-semibold text-center'>Closer management</DialogTitle>
+          <DialogTitle className='text-xl font-semibold text-center'>Add Badge</DialogTitle>
           <div className='border rounded-full flex justify-center items-center  border-red-500'>
             <Button
               variant='ghost'
@@ -120,23 +121,13 @@ export default function AddBadgeForm({
               name='status'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-white'>Assigned Client</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={"1"}>
-                    <SelectTrigger className='bg-gray-800 border-gray-700 text-white focus:border-yellow-500 py-5'>
-                      <SelectValue placeholder='Select Client to assign' />
-                    </SelectTrigger>
-                    <SelectContent className='bg-gray-800 border-gray-700'>
-                      {[{ id: "1", name: "Acme Corp" }].map((client) => (
-                        <SelectItem
-                          key={client.id}
-                          value={client.id}
-                          className='text-white hover:bg-gray-700 focus:bg-gray-700'
-                        >
-                          {client.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormLabel className='text-white'>Description</FormLabel>
+                  <Textarea
+                    {...field}
+                    placeholder='Enter Description'
+                    className='bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:border-yellow-500 py-5'
+                  />
+
                   <FormMessage />
                 </FormItem>
               )}

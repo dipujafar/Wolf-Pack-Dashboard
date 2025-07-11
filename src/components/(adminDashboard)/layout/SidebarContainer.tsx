@@ -36,7 +36,7 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
   return (
     <Sider
       width={260}
-      theme="light"
+      theme='light'
       collapsible
       collapsed={collapsed}
       trigger={null}
@@ -50,21 +50,17 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
     >
       {/* =============== Logo ===============  */}
 
-      <div className="    bottom-1 flex justify-center items-center px-2">
-        <div className="pflex flex-col justify-center items-center gap-y-5 pt-2 pb-1 ">
+      <div className='    bottom-1 flex justify-center items-center px-2'>
+        <div className='flex flex-col justify-center items-center gap-y-5 pt-2 pb-1 '>
           <Link href={"/"}>
             <Image
               src={logo}
-              alt="logo_Image"
+              alt='logo_Image'
               className={cn(`lg:px-1 h-[150px] w-[160px] `, collapsed && "hidden")}
             />
           </Link>
           <Link href={"/"}>
-            <Image
-              src={faviconLogo}
-              alt="logo_Image"
-              className={cn(`lg:px-1`, !collapsed && "hidden")}
-            />
+            <Image src={logo} alt='logo_Image' className={cn(`lg:px-1`, !collapsed && "hidden")} />
           </Link>
         </div>
       </div>
@@ -73,8 +69,8 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
         onClick={onClick}
         defaultSelectedKeys={["dashboard"]}
         selectedKeys={[current]}
-        mode="inline"
-        className="sidebar-menu text-lg bg-main-color !mt-1"
+        mode='inline'
+        className='sidebar-menu text-lg bg-main-color !mt-1'
         items={navLinks}
       />
     </Sider>

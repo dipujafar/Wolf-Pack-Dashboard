@@ -22,7 +22,8 @@ const antTheme = {
     },
     Modal: {
       colorIcon: "rgba(255,255,255,0.45)",
-      contentBg: "var(--color-section-bg)",
+      //contentBg: "var(--color-section-bg)",
+      contentBg: "#111827",
       colorText: "var(--color-text-color)",
     },
 
