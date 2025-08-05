@@ -5,6 +5,7 @@ import { ConfigProvider } from "antd";
 import antTheme from "@/theme/antTheme";
 import { Poppins } from "next/font/google";
 import { Toaster } from "sonner";
+import Providers from "@/lib/providers/Providers";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,14 +27,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body className={poppins.className}>
-        <AntdRegistry>
-          <ConfigProvider theme={antTheme}>
-            <Toaster position="top-center" />
-            {children}
-          </ConfigProvider>
-        </AntdRegistry>
+        <Providers>
+          <AntdRegistry>
+            <ConfigProvider theme={antTheme}>
+              <Toaster position='top-center' />
+              {children}
+            </ConfigProvider>
+          </AntdRegistry>
+        </Providers>
       </body>
     </html>
   );

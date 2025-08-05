@@ -16,7 +16,6 @@ const StatContainer = () => {
         change={{ value: "+6.08%", positive: true }}
          className="bg-[#fff]/15 border border-[#EBEBEB]/50"
       />
-      
     </div>
   );
 };

@@ -71,7 +71,7 @@ const CustomBar = (props: any) => {
   );
 };
 
-export const UserOverview: React.FC = () => {
+export const SalesOverviewChart: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const lastFiveYears = Array.from({ length: 5 }, (_, i) => currentYear - i);
   const [selectedYear, setSetSelectedYear] = useState(currentYear);
@@ -81,7 +81,7 @@ export const UserOverview: React.FC = () => {
         <div className="flex justify-between items-center mb-5">
           <div className="flex-1 border-r-2 border-[#00000033]">
             <CardTitle className="text-xl font-semibold flex items-center text-text-color">
-              User Overview
+              Revenue Overview
             </CardTitle>
           </div>
 
@@ -137,13 +137,14 @@ export const UserOverview: React.FC = () => {
                 tickFormatter={formatYAxisTick}
                 tickMargin={10}
                 domain={[0, 30000]}
+              
               />
               <Tooltip content={<CustomTooltip />} cursor={{ opacity: 0.1 }} />
               <Bar
                 dataKey="users"
                 shape={<CustomBar />}
                 isAnimationActive={true}
-                barSize={24}
+                barSize={35}
                 radius={[10, 0, 0, 0]}
               />
             </BarChart>
