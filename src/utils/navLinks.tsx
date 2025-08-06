@@ -18,42 +18,42 @@ export const navLinks = [
   {
     key: "dashboard",
     icon: <RiDashboardHorizontalFill size={18} />,
-    label: <Link href={"/dashboard"}>Dashboard</Link>,
+    label: <Link href={"/admin/dashboard"}>Dashboard</Link>,
   },
   {
     key: "closer",
     icon: <GoPeople size={18} />,
-    label: <Link href={"/closer"}>Closers Management</Link>,
+    label: <Link href={"/admin/closer"}>Closers Management</Link>,
   },
   {
     key: "client",
     icon: <AlignJustify size={18} />,
-    label: <Link href={"/client"}>Clients Management</Link>,
+    label: <Link href={"/admin/client"}>Clients Management</Link>,
   },
   {
     key: "tracks-sales",
     icon: <ChartColumnIncreasing size={18} />,
-    label: <Link href={"/tracks-sales"}>Tracks Sales</Link>,
+    label: <Link href={"/admin/tracks-sales"}>Tracks Sales</Link>,
   },
   {
     key: "earning",
     icon: <Wallet size={18} />,
-    label: <Link href={"/earning"}>Earning</Link>,
+    label: <Link href={"/admin/earning"}>Earning</Link>,
   },
   {
     key: "leaderboard",
     icon: <ClipboardList size={18} />,
-    label: <Link href={"/leaderboard"}>Leaderboard Management</Link>,
+    label: <Link href={"/admin/leaderboard"}>Leaderboard Management</Link>,
   },
   {
     key: "manage-badge",
     icon: <Award size={18} />,
-    label: <Link href={"/manage-badge"}>Manage Badges</Link>,
+    label: <Link href={"/admin/manage-badge"}>Manage Badges</Link>,
   },
   {
     key: "settings",
     icon: <IoSettingsOutline size={18} />,
-    label: <Link href={"/settings"}>Settings</Link>,
+    label: <Link href={"/admin/settings"}>Settings</Link>,
   },
   {
     key: "logout",

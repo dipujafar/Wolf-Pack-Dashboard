@@ -1,24 +1,31 @@
 "use client";
+import logo from "@/assets/image/logo.png";
+import { cn, Success_model } from "@/lib/utils";
+import { logout } from "@/redux/features/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { navLinks } from "@/utils/navLinks";
 import { Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
-import Link from "next/link";
-import faviconLogo from "@/assets/image/faviconLogo.png";
-import logo from "@/assets/image/logo.png";
-import { navLinks } from "@/utils/navLinks";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
   const [current, setCurrent] = useState("dashboard");
   const currentPath = usePathname();
 
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
     if (e.key === "logout") {
-      localStorage.removeItem("activeNav");
-      return;
+      dispatch(logout());
+      router.refresh();
+      router.push("/login");
+
+      Success_model({ title: "Logout successful" });
     }
     localStorage.setItem("activeNav", e.key);
   };
@@ -26,7 +33,7 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
   useEffect(() => {
     const activeKey = localStorage.getItem("activeNav");
     if (!activeKey) return;
-    if (activeKey && currentPath !== "/dashboard") {
+    if (activeKey && currentPath !== "/admin/dashboard") {
       setCurrent(activeKey as string);
     } else {
       setCurrent("dashboard");

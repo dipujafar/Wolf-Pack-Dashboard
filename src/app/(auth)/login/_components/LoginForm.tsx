@@ -1,6 +1,6 @@
 "use client";
 import AnimatedArrow from "@/components/animatedArrows/AnimatedArrow";
-import { Success_model } from "@/lib/utils";
+import { Error_Modal, Success_model } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/api/authApi";
 import { setUser } from "@/redux/features/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
@@ -45,8 +45,7 @@ const LoginForm = () => {
       }
 
       router.push("/");
-    } catch (error) {
-      // @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
+    } catch (error: any) {
       Error_Modal({ title: error?.data?.message });
     }
   };
@@ -72,7 +71,12 @@ const LoginForm = () => {
           },
         ]}
       >
-        <Input size='large' type='email' placeholder='User Email' />
+        <Input
+          size='large'
+          className='placeholder:!text-[#818181] placeholder:!text-sm'
+          type='email'
+          placeholder='User Email'
+        />
       </Form.Item>
 
       <Form.Item<FieldType>
@@ -80,7 +84,11 @@ const LoginForm = () => {
         name='password'
         rules={[{ required: true, message: "Please input your password!" }]}
       >
-        <Input.Password size='large' placeholder='Password' />
+        <Input.Password
+          size='large'
+          className='placeholder:!text-[#818181] placeholder:!text-sm'
+          placeholder='Password'
+        />
       </Form.Item>
 
       <Form.Item<FieldType> name='remember' valuePropName='checked'>

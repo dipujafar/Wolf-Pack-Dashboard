@@ -1,6 +1,6 @@
 "use client";
 import AnimatedArrow from "@/components/animatedArrows/AnimatedArrow";
-import { Success_model } from "@/lib/utils";
+import { Error_Modal, Success_model } from "@/lib/utils";
 import { useForgetPassMutation } from "@/redux/api/authApi";
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
@@ -26,8 +26,7 @@ const ForgetPassForm = () => {
       sessionStorage.setItem("token", res?.data?.token);
       sessionStorage.setItem("email", values?.email as string);
       route.push("/verify-email");
-    } catch (error) {
-      // @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
+    } catch (error: any) {
       Error_Modal({ title: error?.data?.message });
     }
   };
@@ -52,7 +51,11 @@ const ForgetPassForm = () => {
           },
         ]}
       >
-        <Input size='large' placeholder='Email' />
+        <Input
+          size='large'
+          className='placeholder:!text-[#818181] placeholder:!text-sm'
+          placeholder='Email'
+        />
       </Form.Item>
 
       <Button

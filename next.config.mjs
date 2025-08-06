@@ -14,6 +14,9 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    domains: ["i.ibb.co.com", "clinica-admin.s3.eu-north-1.amazonaws.com"],
+  },
 };
 
 export default nextConfig;

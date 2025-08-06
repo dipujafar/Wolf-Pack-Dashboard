@@ -31,7 +31,7 @@ const userApi = baseApi.injectEndpoints({
 
     getSingleUser: builder.query({
       query: (id) => ({
-        url: `/users/${id}`,
+        url: `/user/${id}`,
         method: "GET",
       }),
       providesTags: [tagTypes.user],
@@ -48,7 +48,7 @@ const userApi = baseApi.injectEndpoints({
 
     updateProfile: builder.mutation({
       query: (data) => ({
-        url: "/users/update-my-profile",
+        url: "/user/profile",
         method: "PATCH",
         body: data,
       }),
@@ -57,7 +57,7 @@ const userApi = baseApi.injectEndpoints({
     }),
     getProfile: builder.query({
       query: () => ({
-        url: "/users/my-profile",
+        url: "/user/profile",
         method: "GET",
       }),
       providesTags: [tagTypes.user],
@@ -71,7 +71,7 @@ const userApi = baseApi.injectEndpoints({
     }),
     updateUserStatus: builder.mutation({
       query: ({ data, id }) => ({
-        url: `/users/status/${id}`,
+        url: `/user/status/${id}`,
         method: "PATCH",
         body: data,
       }),

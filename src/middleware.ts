@@ -16,7 +16,7 @@ export default function middleware(req: NextRequest) {
   // If user exists redirect to `/home`
   let decode: TTokenUser | null = null;
   if (isLoggedIn && isAuthRoute) {
-    return NextResponse.redirect(new URL("/admin", req.url));
+    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
   }
   if (!isLoggedIn && !isAuthRoute) {
     return NextResponse.redirect(new URL("/login", req.url));

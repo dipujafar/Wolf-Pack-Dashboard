@@ -1,6 +1,6 @@
 "use client";
 import AnimatedArrow from "@/components/animatedArrows/AnimatedArrow";
-import { Success_model } from "@/lib/utils";
+import { Error_Modal, Success_model } from "@/lib/utils";
 import { useResendOtpMutation, useVerifyOtpMutation } from "@/redux/api/authApi";
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
@@ -49,8 +49,7 @@ const VerifyEmailForm = () => {
       const res = await reSendOtp({ email }).unwrap();
       sessionStorage.setItem("token", res?.data?.token);
       Success_model({ title: "An otp re-sent to your email" });
-    } catch (error) {
-      // @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
+    } catch (error:any) {
       Error_Modal({ title: error?.data?.message });
     }
   };
@@ -67,7 +66,11 @@ const VerifyEmailForm = () => {
       <Form.Item<FieldType> name='otp'>
         <Input.OTP size='large' />
       </Form.Item>
-
+      <div className='flex'>
+        <button onClick={handleResend} className='text-[#FCB806] font-semibold pb-2 ml-auto'>
+          Resend Otp
+        </button>
+      </div>
       <Button
         style={{
           background: "linear-gradient(180deg, #FCB806 0.89%, #1A2935 100.89%)",
