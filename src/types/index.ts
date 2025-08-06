@@ -64,6 +64,7 @@ export type TUser = {
   commission: number;
   monthlyTargetPercentage: number;
   avgDealAmount: number;
+  rank: number;
 };
 
 export type TMetaCount = {
@@ -75,4 +76,70 @@ export type TMetaCount = {
   totalDealClosed: number;
   totalCommissionPaid: number;
   totalRevenueWithPaidCommission: number;
+};
+
+export interface TCloser {
+  id: string;
+  clientId: string;
+  userId: string;
+  proposition: string;
+  dealDate: string;
+  status: string;
+  amount: number;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+  client: TClient;
+  closerDocuments: CloserDocument[];
+  user: User;
+}
+
+export interface TClient {
+  id: string;
+  name: string;
+  offer: string;
+  userId: string;
+  targetAudience: string;
+  contact: string;
+  location: string;
+  revenueTarget: number;
+  commissionRate: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CloserDocument {
+  id: string;
+  closerId: string;
+  document: string;
+  path: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicture: string;
+  about: string;
+  registeredId: string;
+}
+
+export type TBadges = {
+  currentBadge: TBadge | null;
+  upComingBadge: TBadge | null;
+  progressToNext: number;
+  data: TBadge[];
+};
+
+export type TBadge = {
+  id: string;
+  name: string;
+  dealCount: number;
+  description: string;
+  icon: string;
+  iconPath: string;
+  createdAt: string;
+  updatedAt: string;
 };

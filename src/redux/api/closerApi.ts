@@ -1,9 +1,9 @@
 import { baseApi } from "./baseApi";
 import { tagTypes } from "../tagTypes";
 
-const productApi = baseApi.injectEndpoints({
+const closerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
+    getAllClosers: builder.query({
       query: (query: { label: string; value: string }[]) => {
         const params = new URLSearchParams();
         query.forEach(({ label, value }) => {
@@ -11,17 +11,16 @@ const productApi = baseApi.injectEndpoints({
             params.append(label, value);
           }
         });
+
         return {
-          url: "/products",
+          url: "/closer",
           method: "GET",
           params,
         };
       },
-      providesTags: [tagTypes.product],
+      providesTags: [tagTypes.closers],
     }),
   }),
-
-  overrideExisting: true,
 });
 
-export const { useGetProductsQuery } = productApi;
+export const { useGetAllClosersQuery } = closerApi;

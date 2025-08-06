@@ -54,7 +54,29 @@ const metaApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.users],
     }),
+
+    getSingleUserSalesOverview: builder.query({
+      query: ({ id, query }: { id: string; query: { label: string; value: string }[] }) => {
+        const params = new URLSearchParams();
+        query.forEach(({ label, value }) => {
+          if (label && value) {
+            params.append(label, value);
+          }
+        });
+        return {
+          url: `/meta/sales-overview/${id}`,
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: [tagTypes.users],
+    }),
   }),
 });
 
-export const { useGetMetaCountQuery, useGetUserChartQuery, useGetCloserChartQuery } = metaApi;
+export const {
+  useGetMetaCountQuery,
+  useGetUserChartQuery,
+  useGetCloserChartQuery,
+  useGetSingleUserSalesOverviewQuery,
+} = metaApi;

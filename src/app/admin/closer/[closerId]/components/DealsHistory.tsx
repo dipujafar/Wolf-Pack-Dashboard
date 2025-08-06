@@ -110,69 +110,60 @@ const getStatusColor = (status: Project["status"]) => {
   }
 };
 
-export default function DealsHistory() {
+export default function DealsHistory({ id }: { id: string }) {
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 '>
         {projects.map((project, index) => (
-          <Card key={index} className="bg-white/20 border-none text-white">
-            <CardContent className="p-4">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 rounded border-gray-600 bg-gray-700"
-                  />
-                  <span className="text-sm text-gray-400">{project.id}</span>
+          <Card key={index} className='bg-white/20 border-none text-white'>
+            <CardContent className='p-4'>
+              <div className='flex items-start justify-between mb-4'>
+                <div className='flex items-center gap-2'>
+                  <input type='checkbox' className='w-4 h-4 rounded border-gray-600 bg-gray-700' />
+                  <span className='text-sm text-gray-400'>{project.id}</span>
                 </div>
                 <Badge
                   className={`${getStatusColor(
-                    project.status
+                    project.status,
                   )} text-white border-0 text-xs px-2 py-1`}
                 >
                   {project.status}
                 </Badge>
               </div>
 
-              <h3 className="text-lg font-semibold mb-4 text-white">
-                {project.companyName}
-              </h3>
+              <h3 className='text-lg font-semibold mb-4 text-white'>{project.companyName}</h3>
 
-              <div className="space-y-2 mb-6">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Start Date -</span>
-                  <span className="text-gray-300">{project.startDate}</span>
+              <div className='space-y-2 mb-6'>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-gray-300'>Start Date -</span>
+                  <span className='text-gray-300'>{project.startDate}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Ending date -</span>
-                  <span className="text-gray-300">{project.endingDate}</span>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-gray-300'>Ending date -</span>
+                  <span className='text-gray-300'>{project.endingDate}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Revenue Target -</span>
-                  <span className="text-gray-300">{project.revenueTarget}</span>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-gray-300'>Revenue Target -</span>
+                  <span className='text-gray-300'>{project.revenueTarget}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Revenue Closed -</span>
-                  <span className="text-gray-300">{project.revenueClosed}</span>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-gray-300'>Revenue Closed -</span>
+                  <span className='text-gray-300'>{project.revenueClosed}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Commission Earned -</span>
-                  <span className="text-gray-300">
-                    {project.commissionEarned}
-                  </span>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-gray-300'>Commission Earned -</span>
+                  <span className='text-gray-300'>{project.commissionEarned}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-300">Commission Rate -</span>
-                  <span className="text-gray-300">
-                    {project.commissionRate}
-                  </span>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-gray-300'>Commission Rate -</span>
+                  <span className='text-gray-300'>{project.commissionRate}</span>
                 </div>
               </div>
 
               <Link href={`/closer/1/1`}>
                 <Button
-                  variant="outline"
-                  className="w-full bg-transparent  border-white text-gray-300 hover:bg-gray-200 hover:text-black"
+                  variant='outline'
+                  className='w-full bg-transparent  border-white text-gray-300 hover:bg-gray-200 hover:text-black'
                 >
                   👁 View Details
                 </Button>

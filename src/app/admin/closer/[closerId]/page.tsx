@@ -1,10 +1,10 @@
 import React from "react";
 import CloserDetailsContainer from "./components/CloserDetailsContainer";
 
-const CloserDetails = () => {
+const CloserDetails = ({ params }: { params: { closerId: string } }) => {
   return (
     <div>
-      <CloserDetailsContainer />
+      <CloserDetailsContainer id={params.closerId} />
     </div>
   );
 };

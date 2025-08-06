@@ -36,7 +36,13 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.user],
     }),
-
+    getBadges: builder.query({
+      query: (id) => ({
+        url: `/user/badges/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.user],
+    }),
     updateUser: builder.mutation({
       query: ({ id, data }) => ({
         url: `/users/${id}`,
@@ -91,4 +97,5 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useUpdateUserStatusMutation,
+  useGetBadgesQuery,
 } = userApi;
