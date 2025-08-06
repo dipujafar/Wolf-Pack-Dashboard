@@ -21,7 +21,7 @@ const userApi = baseApi.injectEndpoints({
           }
         });
         return {
-          url: "users",
+          url: "user/users",
           method: "GET",
           params,
         };
@@ -39,7 +39,7 @@ const userApi = baseApi.injectEndpoints({
 
     updateUser: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/user/${id}`,
+        url: `/users/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -71,7 +71,7 @@ const userApi = baseApi.injectEndpoints({
     }),
     updateUserStatus: builder.mutation({
       query: ({ data, id }) => ({
-        url: `/user/status/${id}`,
+        url: `/user/${id}`,
         method: "PATCH",
         body: data,
       }),

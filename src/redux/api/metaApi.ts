@@ -3,16 +3,17 @@ import { tagTypes } from "../tagTypes";
 
 const metaApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getUserCount: builder.query({
-      query: ({ year }) => {
-        const params: any = {};
-
-        if (year) {
-          params["JoinYear"] = year;
-        }
+    getMetaCount: builder.query({
+      query: (query: { label: string; value: string }[]) => {
+        const params = new URLSearchParams();
+        query.forEach(({ label, value }) => {
+          if (label && value) {
+            params.append(label, value);
+          }
+        });
 
         return {
-          url: "/dashboard/count",
+          url: "/meta/counts",
           method: "GET",
           params,
         };
@@ -20,30 +21,40 @@ const metaApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.users],
     }),
     getUserChart: builder.query({
-      query: ({ year }) => {
-        const params: any = {};
-
-        if (year) {
-          params["JoinYear"] = year;
-        }
+      query: (query: { label: string; value: string }[]) => {
+        const params = new URLSearchParams();
+        query.forEach(({ label, value }) => {
+          if (label && value) {
+            params.append(label, value);
+          }
+        });
 
         return {
-          url: "/dashboard/userChart",
+          url: "/meta/users",
           method: "GET",
           params,
         };
       },
       providesTags: [tagTypes.users],
     }),
+    getCloserChart: builder.query({
+      query: (query: { label: string; value: string }[]) => {
+        const params = new URLSearchParams();
+        query.forEach(({ label, value }) => {
+          if (label && value) {
+            params.append(label, value);
+          }
+        });
 
-    getTotalShiftCount: builder.query({
-      query: () => ({
-        url: "/meta/total-shift-count",
-        method: "GET",
-      }),
-      providesTags: [tagTypes.shift],
+        return {
+          url: "/meta/closers",
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: [tagTypes.users],
     }),
   }),
 });
 
-export const { useGetUserCountQuery, useGetTotalShiftCountQuery, useGetUserChartQuery } = metaApi;
+export const { useGetMetaCountQuery, useGetUserChartQuery, useGetCloserChartQuery } = metaApi;

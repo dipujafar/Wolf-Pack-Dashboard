@@ -65,3 +65,14 @@ export type TUser = {
   monthlyTargetPercentage: number;
   avgDealAmount: number;
 };
+
+export type TMetaCount = {
+  totalActiveUsers: number;
+  totalUser: number;
+  totalCloser: number;
+  totalClient: number;
+  totalRevenue: number;
+  totalDealClosed: number;
+  totalCommissionPaid: number;
+  totalRevenueWithPaidCommission: number;
+};

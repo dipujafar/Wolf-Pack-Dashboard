@@ -31,7 +31,6 @@ const Navbar = ({ collapsed, setCollapsed }: TNavbarProps) => {
   const { data, isLoading } = useGetProfileQuery([]);
   const user = data?.data as TUser;
 
-  console.log(user);
   return (
     <div className='flex items-center justify-between w-[97%] font-poppins text-text-color xl:px-8 px-4'>
       {/* Header left side */}

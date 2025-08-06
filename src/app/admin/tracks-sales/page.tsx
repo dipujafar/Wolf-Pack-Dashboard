@@ -1,3 +1,4 @@
+"use client";
 import { Tabs } from "antd";
 import SalesOverviewContainer from "./components/SalesOverview/SalesOverviewContainer";
 import TopCloser from "./components/SalesOverview/TopCloser";

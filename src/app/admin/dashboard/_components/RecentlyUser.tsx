@@ -6,34 +6,33 @@ import DataTable from "@/utils/DataTable";
 import { CgUnblock } from "react-icons/cg";
 import { ArrowDownNarrowWide, Eye } from "lucide-react";
 import UserDetails from "@/components/(adminDashboard)/user/UserDetails";
+import { useAllUserQuery, useUpdateUserStatusMutation } from "@/redux/api/userApi";
+import { TUser } from "@/types";
+import moment from "moment";
+import { Error_Modal, Success_model } from "@/lib/utils";
 
-type TDataType = {
-  key?: number;
-  serial: number;
-  name: string;
-  email: string;
-  location: string;
-  date: string;
-  type: string;
-};
-const data: TDataType[] = Array.from({ length: 5 }).map((data, inx) => ({
-  key: inx,
-  serial: inx + 1,
-  name: "Muskan Tanaz",
-  email: "muskantanaz@gmail.com",
-  location: "Dhanmondi",
-  date: "19 Jun 2025",
-  type: "User",
-}));
-
-const confirmBlock: PopconfirmProps["onConfirm"] = (e) => {
-  console.log(e);
-  message.success("Blocked the user");
-};
 const RecentlyUser = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<TUser | null>(null);
 
-  const columns: TableProps<TDataType>["columns"] = [
+  const [updateUser, { isLoading: isUpdateLoading }] = useUpdateUserStatusMutation();
+  const { data: users, isLoading } = useAllUserQuery([{ label: "limit", value: "10" }]);
+
+  const usersData = (users?.data as TUser[]) || [];
+
+  const confirmBlock = async (user: TUser) => {
+    try {
+      const res = await updateUser({
+        id: user.id,
+        data: {
+          isActive: !user.isActive,
+        },
+      }).unwrap();
+      Success_model({ title: res?.message });
+    } catch (err: any) {
+      Error_Modal({ title: err?.data?.message });
+    }
+  };
+  const columns: TableProps<TUser>["columns"] = [
     {
       title: "Serial",
       dataIndex: "serial",
@@ -44,14 +43,14 @@ const RecentlyUser = () => {
       title: "User Name",
       dataIndex: "name",
       align: "center",
-      render: (text) => (
-        <div className="flex  justify-center items-center gap-x-1">
+      render: (text, record) => (
+        <div className='flex  justify-center items-center gap-x-1'>
           <Image
-            src={"/user_image1.png"}
-            alt="profile-picture"
+            src={record.profilePicture}
+            alt='profile-picture'
             width={40}
             height={40}
-            className="size-10"
+            className='size-10'
           ></Image>
           <p>{text}</p>
         </div>
@@ -62,38 +61,38 @@ const RecentlyUser = () => {
       dataIndex: "email",
       align: "center",
     },
-    {
-      title: "Account Type",
-      dataIndex: "type",
-      align: "center",
-    },
 
     {
       title: " Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
       align: "center",
+      render: (text) => <p>{moment(text).format("LL")}</p>,
     },
 
     {
       title: "Action",
       dataIndex: "action",
       align: "center",
-      render: () => (
-        <div className="flex justify-center gap-2">
+      render: (text, record) => (
+        <div className='flex justify-center gap-2'>
           <Eye
             size={22}
-            color="#78C0A8"
-            onClick={() => setOpen(!open)}
-            className="cursor-pointer"
+            color='#78C0A8'
+            onClick={() => setOpen(record)}
+            className='cursor-pointer'
           />
           <Popconfirm
-            title="Block the user"
-            description="Are you sure to block this user?"
-            onConfirm={confirmBlock}
-            okText="Yes"
-            cancelText="No"
+            title='Block the user'
+            description={`Are you sure to ${record?.isActive ? "block" : "unblock"} this user?`}
+            onConfirm={() => confirmBlock(record)}
+            okText='Yes'
+            cancelText='No'
           >
-            <CgUnblock size={22} color="#CD0335" />
+            <CgUnblock
+              size={22}
+              color={record.isActive ? "red" : "green"}
+              className='cursor-pointer'
+            />
           </Popconfirm>
         </div>
       ),
@@ -101,8 +100,8 @@ const RecentlyUser = () => {
   ];
 
   return (
-    <div className="rounded-2xl">
-      <DataTable columns={columns} data={data}></DataTable>
+    <div className='rounded-2xl'>
+      <DataTable columns={columns} data={usersData}></DataTable>
       <UserDetails open={open} setOpen={setOpen}></UserDetails>
     </div>
   );
