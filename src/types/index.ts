@@ -106,6 +106,8 @@ export interface TClient {
   commissionRate: number;
   createdAt: string;
   updatedAt: string;
+  user?: User;
+  closer?: TCloser;
 }
 
 export interface CloserDocument {

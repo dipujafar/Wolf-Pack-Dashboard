@@ -69,7 +69,7 @@ export default function ProfileInformation({ id }: { id: string }) {
             {/* Deals Closed */}
             <div className='bg-stone-800/50 rounded-lg p-4 border border-stone-700'>
               <div className='text-stone-400 text-sm mb-1'>Deals Closed</div>
-              <div className='text-stone-200 text-xl font-bold'>{userData?.dealCount}</div>
+              <div className='text-stone-200 text-xl font-bold'>{userData?.dealClosedCount}</div>
             </div>
 
             {/* Status */}
@@ -89,7 +89,9 @@ export default function ProfileInformation({ id }: { id: string }) {
             {/* Avg Deal Size */}
             <div className='bg-stone-800/50 rounded-lg p-4 border border-stone-700'>
               <div className='text-stone-400 text-sm mb-1'>Avg. Deal Size</div>
-              <div className='text-stone-200 text-xl font-bold'>€{userData?.avgDealAmount}</div>
+              <div className='text-stone-200 text-xl font-bold'>
+                €{userData?.avgDealAmount.toFixed(2)}
+              </div>
             </div>
 
             {/* Monthly Target */}

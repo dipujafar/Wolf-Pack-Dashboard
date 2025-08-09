@@ -23,4 +23,8 @@ export const tagTypesList = [
   tagTypes.notification,
   tagTypes.setting,
   tagTypes.support,
+  tagTypes.client,
+  tagTypes.clients,
+  tagTypes.closer,
+  tagTypes.closers,
 ];

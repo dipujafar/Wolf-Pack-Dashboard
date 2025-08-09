@@ -43,7 +43,6 @@ const Performance = ({ className, id }: EarningsChartProps) => {
   });
 
   const chartData = data?.data || [];
-console.log(chartData);
   const formattedData = chartData.map((item: any) => ({
     month: (item.month as string).substring(0, 3),
     amount: item.amount,

@@ -1,9 +1,9 @@
 import { baseApi } from "./baseApi";
 import { tagTypes } from "../tagTypes";
 
-const closerApi = baseApi.injectEndpoints({
+const clientApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllClosers: builder.query({
+    getAllClients: builder.query({
       query: (query: { label: string; value: string }[]) => {
         const params = new URLSearchParams();
         query.forEach(({ label, value }) => {
@@ -13,21 +13,21 @@ const closerApi = baseApi.injectEndpoints({
         });
 
         return {
-          url: "/closer",
+          url: "/client",
           method: "GET",
           params,
         };
       },
-      providesTags: [tagTypes.closers],
+      providesTags: [tagTypes.clients],
     }),
-    getSingleCloser: builder.query({
+    getSingleClient: builder.query({
       query: (id) => ({
-        url: `/closer/${id}`,
+        url: `/client/${id}`,
         method: "GET",
       }),
-      providesTags: [tagTypes.closer],
+      providesTags: [tagTypes.client],
     }),
   }),
 });
 
-export const { useGetAllClosersQuery, useGetSingleCloserQuery } = closerApi;
+export const { useGetAllClientsQuery, useGetSingleClientQuery } = clientApi;
