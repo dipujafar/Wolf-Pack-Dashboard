@@ -12,6 +12,8 @@ export const tagTypes = {
   clients: "clients",
   closer: "closer",
   closers: "closers",
+  leagues: "leagues",
+  league: "league",
 };
 
 export const tagTypesList = [
@@ -27,4 +29,6 @@ export const tagTypesList = [
   tagTypes.clients,
   tagTypes.closer,
   tagTypes.closers,
+  tagTypes.leagues,
+  tagTypes.league,
 ];

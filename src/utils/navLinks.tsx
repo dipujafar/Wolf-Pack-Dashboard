@@ -41,9 +41,9 @@ export const navLinks = [
     label: <Link href={"/admin/earning"}>Earning</Link>,
   },
   {
-    key: "leaderboard",
+    key: "league",
     icon: <ClipboardList size={18} />,
-    label: <Link href={"/admin/leaderboard"}>Leaderboard Management</Link>,
+    label: <Link href={"/admin/league"}>League Management</Link>,
   },
   {
     key: "manage-badge",

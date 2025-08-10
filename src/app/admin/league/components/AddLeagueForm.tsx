@@ -18,6 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Error_Modal, Success_model } from "@/lib/utils";
+import { useCreateLeagueMutation } from "@/redux/api/leagueApi";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
@@ -28,7 +31,7 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  commissionRate: z
+  dealAmount: z
     .string()
     .min(1, {
       message: "Commission rate is required.",
@@ -36,7 +39,7 @@ const formSchema = z.object({
     .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
       message: "Commission rate must be a positive number.",
     }),
-  status: z.string({ required_error: "Please select a status." }),
+  description: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -50,19 +53,22 @@ export default function AddLeagueForm({
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      commissionRate: "",
-      status: "",
-    },
   });
 
-  function onSubmit(values: FormValues) {
-    console.log(values);
-    // Handle form submission here
-    setOpen(false);
-    form.reset();
-  }
+  const [createLeague, { isLoading }] = useCreateLeagueMutation();
+
+  const onSubmit = async (values: FormValues) => {
+    try {
+      console.log(values);
+      // Handle form submission here
+      await createLeague({ ...values, dealAmount: Number(values.dealAmount) }).unwrap();
+      Success_model({ title: "League created successfully!!" });
+      setOpen(false);
+      form.reset();
+    } catch (error: any) {
+      Error_Modal({ title: error?.data?.message });
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -103,46 +109,39 @@ export default function AddLeagueForm({
 
             <FormField
               control={form.control}
-              name='status'
+              name='dealAmount'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-white'>Assigned Client</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={"1"}>
-                    <SelectTrigger className='bg-gray-800 border-gray-700 text-white focus:border-yellow-500 py-5'>
-                      <SelectValue placeholder='Select Client to assign' />
-                    </SelectTrigger>
-                    <SelectContent className='bg-gray-800 border-gray-700'>
-                      {[{ id: "1", name: "Acme Corp" }].map((client) => (
-                        <SelectItem
-                          key={client.id}
-                          value={client.id}
-                          className='text-white hover:bg-gray-700 focus:bg-gray-700'
-                        >
-                          {client.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='commissionRate'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-white'>Commission Rate</FormLabel>
+                  <FormLabel className='text-white'>Deal Amount Limit</FormLabel>
                   <FormControl>
                     <div className='flex items-center relative'>
                       <Input
                         type='number'
-                        placeholder='Enter Monthly Target'
+                        placeholder='Enter Deal Amount'
                         {...field}
                         className='bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:border-yellow-500 py-5'
                       />
-                      <span className='absolute right-2 h-4 w-4 opacity-50'>%</span>
+                      {/*<span className='absolute right-2 h-4 w-4 opacity-50'>%</span>*/}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-white'>Description</FormLabel>
+                  <FormControl>
+                    <div className='flex items-center relative'>
+                      <Textarea
+                        placeholder='Enter Deal Amount'
+                        {...field}
+                        className='bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:border-yellow-500 py-5'
+                      />
+                      {/*<span className='absolute right-2 h-4 w-4 opacity-50'>%</span>*/}
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -152,6 +151,7 @@ export default function AddLeagueForm({
 
             <Button
               type='submit'
+              disabled={isLoading}
               className='w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold  rounded-lg group py-5'
             >
               Save <AnimatedArrow />

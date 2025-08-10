@@ -26,7 +26,7 @@ const CloserTable = () => {
   const [pageSize, setPageSize] = useState(11);
   const [search, setSearch] = useState("");
 
-  const searchTerm = useDebounced({ value: search, delay: 500 });
+  const searchTerm = useDebounced({ value: search, delay: 300 });
 
   const [updateUser, { isLoading: isUpdateLoading }] = useUpdateUserStatusMutation();
 

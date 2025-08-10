@@ -1,13 +1,16 @@
 "use client";
-
 import type React from "react";
-
 import { Button, Input, Table, type TableProps, Select, Checkbox } from "antd";
 import { Search, Save, Download, Calendar } from "lucide-react";
 import { useState } from "react";
+import { useGetAllClosersQuery } from "@/redux/api/closerApi";
+import { useDebounced } from "@/redux/hooks";
+import DataTable from "@/utils/DataTable";
+import { TCloser, TResponse } from "@/types";
+import dayjs from "dayjs";
 
 type TDataType = {
-  key: number;
+  key: string;
   serial: number;
   clientName: string;
   closerName: string;
@@ -18,78 +21,84 @@ type TDataType = {
 };
 
 const EarningTable = () => {
-  const [data] = useState<TDataType[]>(
-    Array.from({ length: 30 }).map((_, index) => ({
-      key: index,
-      serial: index + 1,
-      clientName: "Techsavy Solution",
-      closerName: "Ali Mahmud",
-      dealAmount: 25000,
-      closerEarning: 1000,
-      adminEarning: 3000,
-      date: "11 Feb, 2025",
-    })),
-  );
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(11);
+  const [search, setSearch] = useState("");
+  const searchTerm = useDebounced({ value: search, delay: 300 });
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const pageSize = 6;
+  const { data, isLoading } = useGetAllClosersQuery([
+    { label: "page", value: page.toString() },
+    { label: "limit", value: pageSize.toString() },
+    { label: "searchTerm", value: searchTerm.toString() },
+  ]);
 
-  const columns: TableProps<TDataType>["columns"] = [
+  const closerData = data?.data as TResponse<TCloser[]>;
+  const meta = closerData?.meta;
+  const closerList = closerData?.data || [];
+
+  console.log(closerList);
+
+  const columns: TableProps<TCloser>["columns"] = [
     {
       title: "Serial",
-      dataIndex: "serial",
+      dataIndex: "id",
       align: "center",
       width: 80,
-      render: (text) => <span className='text-white'>#{text}</span>,
+      render: (_: any, __: TCloser, index: number) => (
+        <span className='text-white'>#{index + 1}</span>
+      ),
     },
     {
       title: "Client Name",
-      dataIndex: "clientName",
+      dataIndex: ["client", "name"],
       align: "center",
-      render: (text) => <span className='text-white'>{text}</span>,
+      render: (name: string) => <span className='text-white'>{name}</span>,
     },
     {
       title: "Closer Name",
-      dataIndex: "closerName",
+      dataIndex: ["user", "name"],
       align: "center",
-      render: (text) => <span className='text-white'>{text}</span>,
+      render: (name: string) => <span className='text-white'>{name}</span>,
     },
     {
       title: "Deal Amount",
-      dataIndex: "dealAmount",
+      dataIndex: "amount",
       align: "center",
-      render: (text) => <span className='text-white'>€{text.toLocaleString()}</span>,
+      render: (amount: number) => <span className='text-white'>€{amount?.toLocaleString()}</span>,
     },
     {
       title: "Closer Earning (10%)",
-      dataIndex: "closerEarning",
+      dataIndex: "amount",
       align: "center",
-      render: (text) => <span className='text-white'>€{text.toLocaleString()}</span>,
+      render: (amount: number) => (
+        <span className='text-white'>€{(amount * 0.1).toLocaleString()}</span>
+      ),
     },
     {
       title: "Admin Earning (20%)",
-      dataIndex: "adminEarning",
+      dataIndex: "amount",
       align: "center",
-      render: (text) => <span className='text-white'>€{text.toLocaleString()}</span>,
+      render: (amount: number) => (
+        <span className='text-white'>€{(amount * 0.2).toLocaleString()}</span>
+      ),
     },
     {
       title: "Date & Time",
-      dataIndex: "date",
+      dataIndex: "dealDate",
       align: "center",
-      render: (text) => <span className='text-white'>{text}</span>,
+      render: (date: string) => (
+        <span className='text-white'>
+          {new Date(date).toLocaleString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </span>
+      ),
     },
   ];
-
-  const paginatedData = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: (newSelectedRowKeys: React.Key[]) => {
-      setSelectedRowKeys(newSelectedRowKeys);
-    },
-    renderCell: () => <Checkbox className='custom-checkbox' />,
-  };
 
   return (
     <div className=''>
@@ -97,38 +106,25 @@ const EarningTable = () => {
         {/* Commission Rate Section */}
         <div className='space-y-4'>
           <h2 className='text-white text-xl font-semibold'>Set Commission Rate</h2>
-
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-            <div className='space-y-2'>
+            <div>
               <label className='text-gray-400 text-sm'>Closer Commission (%)</label>
               <Input
                 placeholder='e.g. 10%'
-                className='!bg-transparent !text-white !border !border-[#FCB806] !py-3 hover:!border-[#FCB806] focus:!border-[#FCB806]'
-                style={{
-                  backgroundColor: "transparent",
-                  borderColor: "#FCB806",
-                  color: "white",
-                }}
+                className='!bg-transparent !text-white !border !border-[#FCB806] !py-3'
               />
             </div>
-
-            <div className='space-y-2'>
+            <div>
               <label className='text-gray-400 text-sm'>Admin Commission (%)</label>
               <Input
                 placeholder='e.g. 20%'
-                className='!bg-transparent !text-white !border !border-[#FCB806] !py-3 hover:!border-[#FCB806] focus:!border-[#FCB806]'
-                style={{
-                  backgroundColor: "transparent",
-                  borderColor: "#FCB806",
-                  color: "white",
-                }}
+                className='!bg-transparent !text-white !border !border-[#FCB806] !py-3'
               />
             </div>
-
             <div className='space-y-2'>
               <label className='text-gray-400 text-sm opacity-0'>Save</label>
               <Button
-                className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12 w-full !border-none hover:!bg-[#e6b014]'
+                className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12 w-full'
                 icon={<Save size={18} />}
               >
                 Save Commission
@@ -137,38 +133,27 @@ const EarningTable = () => {
           </div>
         </div>
 
-        {/* Search and Filter Section */}
+        {/* Search & Filters */}
         <div className='flex flex-col sm:flex-row gap-4 items-end'>
-          <div className='flex-1 space-y-2'>
-            <Input
-              placeholder='Search here...'
-              prefix={<Search size={16} className='text-gray-400' />}
-              className='!bg-[#2a2a2a] !text-white !border !border-[#FCB806] !py-3 hover:!border-[#FCB806] focus:!border-[#FCB806]'
-              style={{
-                backgroundColor: "#2a2a2a",
-                borderColor: "#FCB806",
-                color: "white",
-              }}
-            />
-          </div>
-
-          <div className='space-y-2'>
-            <Select
-              defaultValue='This Month'
-              className='w-40'
-              suffixIcon={<Calendar size={16} className='text-gray-400' />}
-              style={{ height: "48px" }}
-              dropdownStyle={{ backgroundColor: "#2a2a2a", border: "1px solid #FCB806" }}
-              options={[
-                { value: "this-month", label: "This Month" },
-                { value: "last-month", label: "Last Month" },
-                { value: "last-3-months", label: "Last 3 Months" },
-              ]}
-            />
-          </div>
-
+          <Input
+            placeholder='Search here...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            prefix={<Search size={16} className='text-gray-400' />}
+            className='!bg-[#2a2a2a] !text-white !border !border-[#FCB806] !py-3'
+          />
+          {/*<Select
+            defaultValue='this-month'
+            className='w-40'
+            suffixIcon={<Calendar size={16} className='text-gray-400' />}
+            options={[
+              { value: "this-month", label: "This Month" },
+              { value: "last-month", label: "Last Month" },
+              { value: "last-3-months", label: "Last 3 Months" },
+            ]}
+          />*/}
           <Button
-            className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12 !border-none hover:!bg-[#e6b014]'
+            className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12'
             icon={<Download size={18} />}
           >
             Export
@@ -177,98 +162,20 @@ const EarningTable = () => {
 
         {/* Table */}
         <div className='rounded-lg overflow-hidden'>
-          <Table
+          <DataTable
             columns={columns}
-            dataSource={paginatedData}
-            pagination={false}
-            rowKey='key'
-            rowSelection={rowSelection}
-            className='custom-table'
-            style={{
-              backgroundColor: "#2a2a2a",
+            data={closerList}
+            pageSize={pageSize}
+            total={meta?.total}
+            currentPage={page}
+            loading={isLoading}
+            onPageChange={(newPage, newSize) => {
+              setPage(newPage);
+              setPageSize(newSize);
             }}
           />
         </div>
-
-        {/* Custom Pagination */}
-        <div className='flex justify-center mt-6'>
-          <div className='flex gap-2'>
-            {[1, 2, 3, 4, 5].map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                  currentPage === page
-                    ? "bg-[#FCB806] text-black"
-                    : "bg-gray-600 text-white hover:bg-gray-500"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
-
-      <style jsx global>{`
-        .custom-table .ant-table {
-          background-color: #2a2a2a !important;
-          border: 1px solid #fcb806;
-        }
-
-        .custom-table .ant-table-thead > tr > th {
-          background-color: #fcb806 !important;
-          color: black !important;
-          font-weight: 600 !important;
-          border-bottom: 1px solid #fcb806 !important;
-          text-align: center !important;
-        }
-
-        .custom-table .ant-table-tbody > tr > td {
-          background-color: #2a2a2a !important;
-          border-bottom: 1px solid #404040 !important;
-          color: white !important;
-        }
-
-        .custom-table .ant-table-tbody > tr:hover > td {
-          background-color: #3a3a3a !important;
-        }
-
-        .custom-checkbox .ant-checkbox-inner {
-          background-color: transparent !important;
-          border-color: #fcb806 !important;
-        }
-
-        .custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
-          background-color: #fcb806 !important;
-          border-color: #fcb806 !important;
-        }
-
-        .ant-select-selector {
-          background-color: #2a2a2a !important;
-          border-color: #fcb806 !important;
-          color: white !important;
-          height: 48px !important;
-        }
-
-        .ant-select-selection-item {
-          color: white !important;
-          line-height: 46px !important;
-        }
-
-        .ant-input::placeholder {
-          color: #666 !important;
-        }
-
-        .ant-input-affix-wrapper {
-          background-color: transparent !important;
-        }
-
-        .ant-input-affix-wrapper .ant-input {
-          background-color: transparent !important;
-          color: white !important;
-        }
-      `}</style>
     </div>
   );
 };

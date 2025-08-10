@@ -145,3 +145,12 @@ export type TBadge = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TLeague = {
+  id: string;
+  name: string;
+  dealAmount: number;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+};
