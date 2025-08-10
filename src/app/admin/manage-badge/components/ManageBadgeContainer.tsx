@@ -1,80 +1,66 @@
 "use client";
 
-import image from "@/assets/image/adminProfile.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Table, TableProps } from "antd";
+import { Popconfirm, Table, TableProps } from "antd";
 import { Plus, Trash2 } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { useState } from "react";
 import AddBadgeForm from "./AddBadgeForm";
+import { useGetAllBadgesQuery, useDeleteBadgeMutation } from "@/redux/api/badgeApi";
+import { TBadge } from "@/types";
+import { useDebounced } from "@/redux/hooks";
 
-type TDataType = {
-  key: number;
-  name: string;
-  image: string | StaticImageData;
-  status: string;
-  serial: number;
-  description?: string;
-  date: string;
-};
-
-const ManageBadgeContainer = () => {
+export default function ManageBadgeContainer() {
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState<Array<string>>([]);
+  const [search, setSearch] = useState("");
+  const searchTerm = useDebounced({ value: search, delay: 300 });
+  const { data, isLoading } = useGetAllBadgesQuery([
+    {
+      label: "searchTerm",
+      value: searchTerm.toString(),
+    },
+  ]);
+  const badges = (data?.data as TBadge[]) || [];
 
-  const [data, setData] = useState<TDataType[]>(
-    Array.from({ length: 30 }).map((_, index) => ({
-      key: index,
-      name: `Closer ${index + 1}`,
-      image: image,
-      status: "Active",
-      serial: index + 1,
-      description: `Badge for closer ${index + 1}`,
-      date: "11 Feb, 2025",
-    })),
-  );
+  const [deleteBadge, { isLoading: isDeleting }] = useDeleteBadgeMutation();
 
-  const handleDelete = (key: number) => {
-    setData((prev) => prev.filter((item) => item.key !== key));
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteBadge(id).unwrap();
+    } catch (err) {
+      console.error("Delete failed:", err);
+    }
   };
 
-  const columns: TableProps<TDataType>["columns"] = [
+  const columns: TableProps<TBadge>["columns"] = [
     {
       title: "Serial",
-      dataIndex: "serial",
       align: "center",
-      width: 80,
-      render: (serial) => <span className='text-white'>#{serial}</span>,
+      render: (_, __, index) => <span className='text-white'>#{index + 1}</span>,
     },
     {
-      title: "League Name",
+      title: "Name & Icon",
       dataIndex: "name",
       align: "center",
       render: (_, record) => (
         <div className='flex items-center justify-center gap-x-3'>
-          <Image src={record.image} alt='badge' width={40} height={40} className='rounded-full' />
+          <Image
+            src={record.icon}
+            alt={record.name}
+            width={40}
+            height={40}
+            className='rounded-full object-cover'
+          />
           <p className='text-white'>{record.name}</p>
         </div>
       ),
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      filters: [
-        { text: "Active", value: "Active" },
-        { text: "Inactive", value: "Inactive" },
-      ],
-      onFilter: (value, record) => record.status === value,
+      title: "Deal Count",
+      dataIndex: "dealCount",
       align: "center",
-      render: (status) => <span className='text-white'>{status}</span>,
+      render: (dealCount) => <span className='text-white'>{dealCount}</span>,
     },
     {
       title: "Description",
@@ -83,86 +69,64 @@ const ManageBadgeContainer = () => {
       render: (description) => <span className='text-white'>{description}</span>,
     },
     {
-      title: "Date & Time",
-      dataIndex: "date",
+      title: "Created At",
+      dataIndex: "createdAt",
       align: "center",
-      render: (date) => <span className='text-white'>{date}</span>,
+      render: (date) => <span className='text-white'>{new Date(date).toLocaleString()}</span>,
     },
-
     {
       title: "Action",
-      dataIndex: "action",
       align: "center",
       render: (_, record) => (
-        <Button
-          size='icon'
-          className='text-white bg-red-600 hover:bg-red-500'
-          onClick={() => handleDelete(record.key)}
+        <Popconfirm
+          title='Delete'
+          description={`Are you sure to delete?`}
+          onConfirm={() => handleDelete(record.id)}
+          okText='Yes'
+          cancelText='No'
         >
-          <Trash2 className='size-4' />
-        </Button>
+          <Button
+            size='icon'
+            className='text-white bg-red-600 hover:bg-red-500'
+            disabled={isDeleting}
+          >
+            <Trash2 className='size-4' />
+          </Button>
+        </Popconfirm>
       ),
     },
   ];
 
   return (
     <div className='space-y-6'>
-      {/* Add Button */}
-      <Button onClick={() => setVisible(true)} className='bg-[#FCB806] w-full' size='lg'>
+      <Button
+        onClick={() => setVisible(true)}
+        className='bg-[#FCB806] hover:bg-[#FCB806]/90 w-full'
+        size='lg'
+      >
         <Plus className='size-4 text-white' />
         <span className='ml-2'>Add Badge</span>
       </Button>
 
-      {/* Search and Filter */}
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 items-end'>
-        <Input
-          placeholder='Search here...'
-          className='flex-1 !bg-gray-800  !text-white !border !border-[#FCB806] py-5'
-        />
-        <Select defaultValue='1' onValueChange={(value) => console.log(value)}>
-          <SelectTrigger className='bg-gray-800 text-white border-[#FCB806] py-5'>
-            <SelectValue placeholder='Select Month' />
-          </SelectTrigger>
-          <SelectContent className='bg-gray-800 border-gray-700'>
-            {[{ id: "1", name: "January" }].map((month) => (
-              <SelectItem key={month.id} value={month.id} className='text-white hover:bg-gray-700'>
-                {month.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <Input
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder='Search here...'
+        className='!bg-gray-800 !text-white !border !border-[#FCB806] py-5'
+      />
 
-      {/* Table */}
       <div className='rounded-lg overflow-hidden'>
         <Table
           columns={columns}
-          dataSource={data}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: false,
-            hideOnSinglePage: true,
-          }}
-          rowKey='key'
+          dataSource={badges}
+          loading={isLoading}
+          rowKey='id'
+          pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
           className='custom-table'
           style={{ backgroundColor: "#1f2937" }}
-          rowSelection={{
-            onChange: (selectedRowKeys, selectedRows) => {
-              setSelected(selectedRows.map((row) => row.serial.toString()));
-            },
-            getCheckboxProps: (record) => {
-              return {
-                disabled: record.serial === 1,
-              };
-            },
-          }}
         />
       </div>
 
-      {/* Add Badge Modal */}
       <AddBadgeForm open={visible} setOpen={setVisible} />
     </div>
   );
-};
-
-export default ManageBadgeContainer;
+}

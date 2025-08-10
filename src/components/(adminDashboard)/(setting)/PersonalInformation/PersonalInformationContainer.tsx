@@ -51,7 +51,6 @@ const PersonalInformationContainer = () => {
 
     if (file) {
       const url = URL.createObjectURL(file);
-      console.log(url);
       setImageUrl(url);
       setFileName(file);
 
@@ -71,6 +70,10 @@ const PersonalInformationContainer = () => {
 
     input.value = "";
   };
+
+  if (isLoading) {
+    return <div className='text-white text-center py-10'>Loading...</div>;
+  }
 
   return (
     <div>
@@ -195,7 +198,7 @@ const PersonalInformationContainer = () => {
               {/*  input  email */}
               <Form.Item label='Email' name='email'>
                 {edit ? (
-                  <Input size='large' placeholder='Enter email '></Input>
+                  <Input size='large' placeholder='Enter email' readOnly></Input>
                 ) : (
                   <Input size='large' placeholder='Enter email' readOnly></Input>
                 )}
@@ -211,7 +214,13 @@ const PersonalInformationContainer = () => {
               </Form.Item>
 
               <div className={edit ? "" : "hidden"}>
-                <Button htmlType='submit' size='large' block style={{ border: "none" }}>
+                <Button
+                  htmlType='submit'
+                  size='large'
+                  className='w-full hover:!bg-[#FCB806]/90 hover:!text-white'
+                  block
+                  style={{ border: "none" }}
+                >
                   Save Change
                 </Button>
               </div>

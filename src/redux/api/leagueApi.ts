@@ -2,7 +2,7 @@ import { baseApi } from "./baseApi";
 import { tagTypes } from "../tagTypes";
 import { create } from "domain";
 
-const clientApi = baseApi.injectEndpoints({
+const leagueApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getLeagues: builder.query({
       query: (query: { label: string; value: string }[]) => {
@@ -69,4 +69,4 @@ export const {
   useUpdateLeagueMutation,
   useDeleteLeagueMutation,
   useDeleteLeaguesMutation,
-} = clientApi;
+} = leagueApi;

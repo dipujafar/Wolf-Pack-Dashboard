@@ -79,10 +79,10 @@ const Navbar = ({ collapsed, setCollapsed }: TNavbarProps) => {
         </Link>
 
         {/* user profile */}
-        <Menubar className='py-8 border-none shadow-none px-0 border bg-[#131B29] '>
+        <Menubar className='py-8 border-none shadow-none px-0 border bg-transparent '>
           <MenubarMenu>
-            <MenubarTrigger className='shadow-none px-0 bg-[#131B29]'>
-              <div className={cn(" text-black flex items-center gap-x-1 cursor-pointer")}>
+            <MenubarTrigger className='shadow-none px-0 bg-[#111827] data-[state=open]:bg-[#111827] active:bg-[#111827]'>
+              <div className={cn("text-black flex items-center gap-x-1 cursor-pointer")}>
                 <Avatar
                   src={user?.profilePicture}
                   size={40}
@@ -98,7 +98,7 @@ const Navbar = ({ collapsed, setCollapsed }: TNavbarProps) => {
                 </h4>
               </div>
             </MenubarTrigger>
-            <MenubarContent className='text-primary-gray'>
+            <MenubarContent className='text-primary-gray bg-[#111827]'>
               <Link href={"/admin/personal-information"}>
                 <MenubarItem className='hover:bg-gray-100 cursor-pointer'>
                   Profile{" "}

@@ -154,3 +154,4 @@ export type TLeague = {
   createdAt: string;
   updatedAt: string;
 };
+

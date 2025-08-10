@@ -6,50 +6,45 @@ import { IoIosArrowForward } from "react-icons/io";
 
 const links = [
   {
-    lable: "Personal Information",
-    path: "personal-information",
+    label: "Personal Information",
+    path: "admin/personal-information",
   },
   {
-    lable: "Change Password",
+    label: "Change Password",
     path: "changePassword",
   },
   {
-    lable: "Terms & Condition",
-    path: "terms-condition",
+    label: "Terms & Condition",
+    path: "admin/terms-condition",
   },
   {
-    lable: "Privacy Policy",
-    path: "privacy-policy",
+    label: "Privacy Policy",
+    path: "admin/privacy-policy",
   },
- 
 ];
 
 const SettingContainer = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="grid grid-cols-1 gap-5">
+    <div className='grid grid-cols-1 gap-5'>
       {links?.map((link, inx) => {
         if (link.path === "changePassword") {
           return (
             <div
               key={inx}
               onClick={() => setOpen(!open)}
-              className="bg-primary-light-gray shadow-md  p-5 rounded flex justify-between items-center cursor-pointer"
+              className='bg-primary-light-gray shadow-md  p-5 rounded flex justify-between items-center cursor-pointer'
             >
-              <h4 className="text-text-color font-medium text-lg">
-                {link?.lable}
-              </h4>
-              <IoIosArrowForward size={18} color="#000" />
+              <h4 className='text-text-color font-medium text-lg'>{link?.label}</h4>
+              <IoIosArrowForward size={18} color='#000' />
             </div>
           );
         } else {
           return (
             <Link key={link.path} href={`/${link.path}`}>
-              <div className="bg-primary-light-gray shadow-md  p-5 rounded flex justify-between items-center">
-                <h4 className="text-text-color font-medium text-lg">
-                  {link?.lable}
-                </h4>
-              <IoIosArrowForward size={18} color="#000" />
+              <div className='bg-primary-light-gray shadow-md  p-5 rounded flex justify-between items-center'>
+                <h4 className='text-text-color font-medium text-lg'>{link?.label}</h4>
+                <IoIosArrowForward size={18} color='#000' />
               </div>
             </Link>
           );

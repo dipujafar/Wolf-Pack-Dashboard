@@ -14,6 +14,9 @@ export const tagTypes = {
   closers: "closers",
   leagues: "leagues",
   league: "league",
+  meta: "meta",
+  badges: "badges",
+  badge: "badge",
 };
 
 export const tagTypesList = [
@@ -31,4 +34,5 @@ export const tagTypesList = [
   tagTypes.closers,
   tagTypes.leagues,
   tagTypes.league,
+  tagTypes.meta,
 ];
