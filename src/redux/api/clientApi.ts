@@ -27,7 +27,28 @@ const clientApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.client],
     }),
+    createClient: builder.mutation({
+      query: (data) => ({
+        url: "/client/create",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.clients],
+    }),
+    updateClient: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/client/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.client],
+    }),
   }),
 });
 
-export const { useGetAllClientsQuery, useGetSingleClientQuery } = clientApi;
+export const {
+  useGetAllClientsQuery,
+  useGetSingleClientQuery,
+  useCreateClientMutation,
+  useUpdateClientMutation,
+} = clientApi;

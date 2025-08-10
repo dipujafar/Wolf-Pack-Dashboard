@@ -112,7 +112,7 @@ const ClientsTable = () => {
       align: "center",
       render: (_, record) => (
         <div className='flex justify-center gap-3'>
-          <Link href={`/admin/closer/${record?.closer?.id}/${record?.id}`}>
+          <Link href={`/admin/client/${record?.id}`}>
             <Eye size={20} color='#78C0A8' />
           </Link>
           <Popconfirm

@@ -1,10 +1,10 @@
 import React from "react";
 import ClientDetailsContainer from "./components/ClientDetailsContainer";
 
-const ClientId = () => {
+const ClientId = ({ params }: { params: { clientId: string } }) => {
   return (
     <>
-      <ClientDetailsContainer />
+      <ClientDetailsContainer id={params.clientId} />
     </>
   );
 };
