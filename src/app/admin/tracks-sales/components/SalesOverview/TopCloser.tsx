@@ -1,21 +1,41 @@
 "use client";
-import { Table, Pagination } from "antd";
+import { useTopUsersQuery } from "@/redux/api/userApi";
+import { TResponse } from "@/types";
+import DataTable from "@/utils/DataTable";
 import type { TableProps } from "antd";
+import { Table } from "antd";
+import Image from "next/image";
 import { useState } from "react";
 
 type TDataType = {
   id: string;
-  rank: number;
-  topInWeek: boolean;
-  first20K: boolean;
-  starSeller: boolean;
-  serial: number;
   name: string;
-  leagues: string;
-  revenue: string;
-  deals: string;
-  commission: string;
+  profilePicture: string;
+  salesCount: number;
+  dealCount: number;
+  league: League;
+  badges: Badge[];
 };
+
+export interface League {
+  id: string;
+  name: string;
+  dealAmount: number;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Badge {
+  id: string;
+  name: string;
+  dealCount: number;
+  description: string;
+  icon: string;
+  iconPath: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 // Dummy icon components (replace with actual <svg> components)
 const Badge1 = () => (
@@ -150,94 +170,30 @@ const AwardLabel = ({ label }: { label: string }) => (
   </div>
 );
 
-const data: TDataType[] = [
-  {
-    id: "1",
-    rank: 1,
-    topInWeek: true,
-    first20K: true,
-    starSeller: true,
-    serial: 1,
-    name: "John Doe",
-    leagues: "Gold",
-    revenue: "$50,000",
-    deals: "45",
-    commission: "$5,000",
-  },
-  {
-    id: "2",
-    rank: 2,
-    topInWeek: true,
-    first20K: true,
-    starSeller: false,
-    serial: 1002,
-    name: "Jane Smith",
-    leagues: "Silver",
-    revenue: "$42,000",
-    deals: "38",
-    commission: "$4,200",
-  },
-  {
-    id: "3",
-    rank: 3,
-    topInWeek: false,
-    first20K: true,
-    starSeller: true,
-    serial: 1003,
-    name: "Mike Johnson",
-    leagues: "Bronze",
-    revenue: "$35,000",
-    deals: "32",
-    commission: "$3,500",
-  },
-  {
-    id: "4",
-    rank: 4,
-    topInWeek: false,
-    first20K: false,
-    starSeller: false,
-    serial: 1004,
-    name: "Sarah Williams",
-    leagues: "Silver",
-    revenue: "$28,000",
-    deals: "25",
-    commission: "$2,800",
-  },
-  {
-    id: "5",
-    rank: 5,
-    topInWeek: true,
-    first20K: false,
-    starSeller: true,
-    serial: 1005,
-    name: "David Brown",
-    leagues: "Gold",
-    revenue: "$22,000",
-    deals: "20",
-    commission: "$2,200",
-  },
-];
-
 const TopCloser = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selected, setSelected] = useState<Array<string>>([]);
-  const pageSize = 10;
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  const paginatedData = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const { data, isLoading } = useTopUsersQuery([
+    {
+      label: "page",
+      value: page.toString(),
+    },
+    {
+      label: "limit",
+      value: pageSize.toString(),
+    },
+  ]);
 
-  const getBadge = (index: number) => {
-    if (index === 0) return <Badge1 />;
-    if (index === 1) return <Badge2 />;
-    if (index === 2) return <Badge3 />;
-    return null;
-  };
+  const result = data?.data as TResponse<TDataType[]>;
+
+  const meta = result?.meta;
+  const userData = result?.data;
 
   const getAwards = (record: TDataType) => {
-    const awards = [];
-    if (record.topInWeek) awards.push("Top Closer of the Week");
-    if (record.first20K) awards.push("First 20K Seller");
-    if (record.starSeller) awards.push("Star Seller");
-    return awards.map((label, i) => <AwardLabel key={i} label={label} />);
+    return record?.badges?.map((badge, i) => <AwardLabel key={i} label={badge?.name} />);
   };
 
   const columns: TableProps<TDataType>["columns"] = [
@@ -246,8 +202,15 @@ const TopCloser = () => {
       key: "rank",
       render: (_, __, index) => (
         <div className='flex items-center gap-2'>
-          {getBadge(index)}
-          <span>{paginatedData[index].rank}</span>
+          {/*{getBadge(index)}*/}
+          <Image
+            className='rounded-lg aspect-square object-cover'
+            src={userData[index].profilePicture}
+            alt='profile-picture'
+            width={40}
+            height={40}
+          />
+          <span>{index + 1}</span>
         </div>
       ),
       width: 100,
@@ -265,67 +228,51 @@ const TopCloser = () => {
       width: 200,
     },
     {
-      title: "Leagues",
-      dataIndex: "leagues",
-      key: "leagues",
+      title: "League",
+      dataIndex: "league",
+      key: "league",
       width: 150,
+      render: (_, record) => <span className='text-white'>{record?.league?.name || "-"}</span>,
     },
     {
       title: "Revenue",
-      dataIndex: "revenue",
-      key: "revenue",
+      dataIndex: "amount",
+      key: "amount",
       width: 120,
+      render: (_, record) => {
+        // calculate revenue
+        return <span className='text-white'>€{record.salesCount}</span>;
+      },
     },
     {
       title: "Deals",
-      dataIndex: "deals",
+      dataIndex: "dealCount",
       key: "deals",
       width: 100,
     },
-    {
-      title: "Commission",
-      dataIndex: "commission",
-      key: "commission",
-      width: 120,
-    },
+    //{
+    //  title: "Commission",
+    //  dataIndex: "commission",
+    //  key: "commission",
+    //  width: 120,
+    //},
   ];
 
   return (
     <div>
       <h1 className='text-2xl font-semibold mb-6 text-white'>Top Closers</h1>
-      <Table
+      <DataTable
+        loading={isLoading}
         columns={columns}
-        dataSource={paginatedData}
-        pagination={{
-          current: currentPage,
-          pageSize: pageSize,
-          total: data.length,
-          onChange: (page) => setCurrentPage(page),
-          style: { backgroundColor: "#111827", marginBottom: "0", marginTop: "0", padding: "20px" },
-        }}
-        rowKey='id'
-        bordered
-        className='rounded-lg overflow-hidden bg-white'
-        rowSelection={{
-          onChange: (selectedRowKeys, selectedRows) => {
-            setSelected(selectedRows.map((row) => row.id));
-          },
-          getCheckboxProps: (record) => {
-            return {
-              disabled: record.id === "1",
-            };
-          },
+        data={userData}
+        pageSize={pageSize}
+        total={meta?.total}
+        currentPage={page}
+        onPageChange={(newPage, newSize) => {
+          setPage(newPage);
+          setPageSize(newSize);
         }}
       />
-      <div className='flex justify-end mt-4'>
-        {/*<Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={data.length}
-          onChange={(page) => setCurrentPage(page)}
-          showSizeChanger={false}
-        />*/}
-      </div>
     </div>
   );
 };

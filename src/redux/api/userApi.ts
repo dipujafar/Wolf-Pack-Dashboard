@@ -28,6 +28,22 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.users],
     }),
+    topUsers: builder.query({
+      query: (query: { label: string; value: string }[]) => {
+        const params = new URLSearchParams();
+        query.forEach(({ label, value }) => {
+          if (label && value) {
+            params.append(label, value);
+          }
+        });
+        return {
+          url: "user/top-users",
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: [tagTypes.users],
+    }),
 
     getSingleUser: builder.query({
       query: (id) => ({
@@ -98,4 +114,5 @@ export const {
   useDeleteUserMutation,
   useUpdateUserStatusMutation,
   useGetBadgesQuery,
+  useTopUsersQuery,
 } = userApi;

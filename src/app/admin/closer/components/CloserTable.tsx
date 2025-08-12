@@ -16,12 +16,7 @@ import Image from "next/image";
 import moment from "moment";
 import { Error_Modal, Success_model } from "@/lib/utils";
 
-const confirmBlock: PopconfirmProps["onConfirm"] = () => {
-  message.success("Blocked the closer");
-};
-
 const CloserTable = () => {
-  const [addCloserModal, setAddCloserModal] = useState(false);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(11);
   const [search, setSearch] = useState("");

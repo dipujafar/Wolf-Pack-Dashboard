@@ -4,15 +4,15 @@ import { baseApi } from "./baseApi";
 const settingsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getSettings: builder.query({
-      query: ({ label }: { label: string }) => ({
-        url: `/setting/${label}`,
+      query: () => ({
+        url: `/settings`,
         method: "GET",
       }),
       providesTags: [tagTypes.setting],
     }),
     updateSettings: builder.mutation({
       query: (data) => ({
-        url: "/setting",
+        url: "/settings",
         method: "PATCH",
         body: data,
       }),

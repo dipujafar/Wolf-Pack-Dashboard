@@ -155,3 +155,9 @@ export type TLeague = {
   updatedAt: string;
 };
 
+export type TSettings = {
+  id: string;
+  privacy: string;
+  terms: string;
+  about: string;
+};
