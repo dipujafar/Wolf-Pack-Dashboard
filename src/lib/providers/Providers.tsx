@@ -6,14 +6,17 @@ import { ConfigProvider } from "antd";
 import { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+//import FirebaseProvider from "./FirebaseProvider";
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AntdRegistry>
-          <ConfigProvider theme={antTheme}>{children}</ConfigProvider>
-        </AntdRegistry>
+        {/*<FirebaseProvider>*/}
+          <AntdRegistry>
+            <ConfigProvider theme={antTheme}>{children}</ConfigProvider>
+          </AntdRegistry>
+        {/*</FirebaseProvider>*/}
       </PersistGate>
     </Provider>
   );

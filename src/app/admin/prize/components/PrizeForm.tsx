@@ -217,7 +217,7 @@ export default function PrizeForm() {
                     Prize Tier (Top {form.watch(`prizes.${index}.tierLevel`)})
                   </CardTitle>
                   <div className='flex items-center space-x-2'>
-                    <FormField
+                    {/*<FormField
                       control={form.control}
                       name={`prizes.${index}.isActive`}
                       render={({ field }) => (
@@ -228,7 +228,7 @@ export default function PrizeForm() {
                           </FormControl>
                         </FormItem>
                       )}
-                    />
+                    />*/}
                     <Button
                       type='button'
                       size='sm'

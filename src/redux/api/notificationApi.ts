@@ -36,8 +36,15 @@ const settingsApi = baseApi.injectEndpoints({
     }),
     deleteAllNotifications: builder.mutation({
       query: () => ({
-        url: "/notification/delete-all",
+        url: "/notification",
         method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.notification],
+    }),
+    testNotification: builder.mutation({
+      query: () => ({
+        url: "/notification/create",
+        method: "POST",
       }),
       invalidatesTags: [tagTypes.notification],
     }),
@@ -49,4 +56,5 @@ export const {
   useSeenNotificationMutation,
   useDeleteNotificationMutation,
   useDeleteAllNotificationsMutation,
+  useTestNotificationMutation,
 } = settingsApi;

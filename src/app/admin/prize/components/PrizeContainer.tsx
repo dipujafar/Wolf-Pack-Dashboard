@@ -10,7 +10,7 @@ const PrizeContainer = () => {
       children: <PrizeForm />,
     },
     {
-      label: "Leaderboard",
+      label: "Prize Winners",
       key: "2",
       children: <PrizeWinner />,
     },

@@ -65,6 +65,7 @@ export type TUser = {
   monthlyTargetPercentage: number;
   avgDealAmount: number;
   rank: number;
+  fcmToken?: string;
 };
 
 export type TMetaCount = {
@@ -160,4 +161,16 @@ export type TSettings = {
   privacy: string;
   terms: string;
   about: string;
+};
+
+export type TNotification = {
+  id: string;
+  userId: string;
+  title: string;
+  body: string;
+  data: any;
+  link: null | string;
+  isRead: false;
+  createdAt: string;
+  updatedAt: string;
 };

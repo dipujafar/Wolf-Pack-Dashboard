@@ -59,6 +59,14 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.user],
     }),
+
+    getPrizeWinners: builder.query({
+      query: () => ({
+        url: `/user/prize-winner`,
+        method: "GET",
+      }),
+    }),
+
     updateUser: builder.mutation({
       query: ({ id, data }) => ({
         url: `/users/${id}`,
@@ -115,4 +123,5 @@ export const {
   useUpdateUserStatusMutation,
   useGetBadgesQuery,
   useTopUsersQuery,
+  useGetPrizeWinnersQuery,
 } = userApi;

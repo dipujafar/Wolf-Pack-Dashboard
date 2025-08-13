@@ -11,7 +11,7 @@ const StatContainer = () => {
     <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 `}>
       <StatCard
         title='Total Closer'
-        value={stackData?.totalCloser}
+        value={stackData?.totalUser}
         change={{ value: "+11.01%", positive: true }}
         className='bg-[#fff]/15 border border-[#EBEBEB]/50'
       />
