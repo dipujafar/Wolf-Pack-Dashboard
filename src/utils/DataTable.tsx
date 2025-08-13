@@ -1,28 +1,44 @@
 import { Table } from "antd";
+import { TableProps } from "antd/lib/table";
 
-const DataTable = ({
+interface DataTableProps<T> {
+  columns: TableProps<T>["columns"];
+  data: T[];
+  pageSize?: number;
+  total?: number;
+  currentPage?: number;
+  loading?: boolean;
+  onPageChange?: (page: number, pageSize: number) => void;
+}
+
+const DataTable = <T extends object>({
   columns,
   data,
-  pageSize,
-}: {
-  columns: any;
-  data: any;
-  pageSize?: number;
-}) => {
-  return pageSize ? (
+  pageSize = 10,
+  total,
+  currentPage,
+  loading = false,
+  onPageChange,
+}: DataTableProps<T>) => {
+  return (
     <Table
       columns={columns}
       dataSource={data}
-      pagination={{ pageSize: pageSize }}
+      loading={loading}
+      rowKey={(record) => (record as any).id || Math.random()} // prevent key warnings
+      pagination={{
+        position: ["bottomCenter"],
+        pageSize,
+        total,
+        current: currentPage,
+        showSizeChanger: true,
+        showTotal: (total) => `Total ${total} items`,
+        onChange: (page, size) => {
+          if (onPageChange) onPageChange(page, size);
+        },
+      }}
       scroll={{ x: "max-content" }}
-    ></Table>
-  ) : (
-    <Table
-      columns={columns}
-      dataSource={data}
-      pagination={false}
-      scroll={{ x: "max-content" }}
-    ></Table>
+    />
   );
 };
 

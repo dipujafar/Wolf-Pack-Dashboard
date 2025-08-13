@@ -1,5 +1,7 @@
 "use client";
 import AnimatedArrow from "@/components/animatedArrows/AnimatedArrow";
+import { Error_Modal, Success_model } from "@/lib/utils";
+import { useForgetPassMutation } from "@/redux/api/authApi";
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
@@ -15,27 +17,32 @@ const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
 const ForgetPassForm = () => {
   const route = useRouter();
 
-  //handle password change
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
+  const [forgetPassword, { isLoading }] = useForgetPassMutation();
 
-    if (values.email) {
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    try {
+      const res = await forgetPassword(values).unwrap();
+      Success_model({ title: "An otp sent to your email" });
+      sessionStorage.setItem("token", res?.data?.token);
+      sessionStorage.setItem("email", values?.email as string);
       route.push("/verify-email");
+    } catch (error: any) {
+      Error_Modal({ title: error?.data?.message });
     }
   };
 
   return (
     <Form
-      name="basic"
+      name='basic'
       initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      autoComplete="off"
-      layout="vertical"
+      autoComplete='off'
+      layout='vertical'
     >
       <Form.Item<FieldType>
-        label="Email"
-        name="email"
+        label='Email'
+        name='email'
         rules={[
           { required: true, message: "Please input your email!" },
           {
@@ -44,10 +51,24 @@ const ForgetPassForm = () => {
           },
         ]}
       >
-        <Input size="large" placeholder="Email" />
+        <Input
+          size='large'
+          className='placeholder:!text-[#818181] placeholder:!text-sm'
+          placeholder='Email'
+        />
       </Form.Item>
 
-      <Button style={{background: "linear-gradient(180deg, #4DB6AC 0.89%, #1A2935 100.89%)", boxShadow: "7px 8px 4.7px 0px rgba(0, 0, 0, 0.08) inset"}} className="group" htmlType="submit" size="large" block >
+      <Button
+        style={{
+          background: "linear-gradient(180deg, #FCB806 0.89%, #1A2935 100.89%)",
+          boxShadow: "7px 8px 4.7px 0px rgba(0, 0, 0, 0.08) inset",
+        }}
+        className='group'
+        htmlType='submit'
+        size='large'
+        block
+        loading={isLoading}
+      >
         Send OTP
         <AnimatedArrow size={20} />
       </Button>

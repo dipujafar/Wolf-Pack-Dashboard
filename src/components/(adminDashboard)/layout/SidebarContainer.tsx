@@ -1,24 +1,31 @@
 "use client";
+import logo from "@/assets/image/logo.png";
+import { cn, Success_model } from "@/lib/utils";
+import { logout } from "@/redux/features/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { navLinks } from "@/utils/navLinks";
 import { Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
-import Link from "next/link";
-import faviconLogo from "@/assets/image/faviconLogo.png";
-import logo from "@/assets/image/logo.png";
-import { navLinks } from "@/utils/navLinks";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
   const [current, setCurrent] = useState("dashboard");
   const currentPath = usePathname();
 
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
     if (e.key === "logout") {
-      localStorage.removeItem("activeNav");
-      return;
+      dispatch(logout());
+      router.refresh();
+      router.push("/login");
+
+      Success_model({ title: "Logout successful" });
     }
     localStorage.setItem("activeNav", e.key);
   };
@@ -26,7 +33,7 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
   useEffect(() => {
     const activeKey = localStorage.getItem("activeNav");
     if (!activeKey) return;
-    if (activeKey && currentPath !== "/dashboard") {
+    if (activeKey && currentPath !== "/admin/dashboard") {
       setCurrent(activeKey as string);
     } else {
       setCurrent("dashboard");
@@ -36,7 +43,7 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
   return (
     <Sider
       width={260}
-      theme="light"
+      theme='light'
       collapsible
       collapsed={collapsed}
       trigger={null}
@@ -50,21 +57,17 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
     >
       {/* =============== Logo ===============  */}
 
-      <div className="    bottom-1 flex justify-center items-center px-2">
-        <div className="pflex flex-col justify-center items-center gap-y-5 pt-2 pb-1 ">
-          <Link href={"/"}>
+      <div className='    bottom-1 flex justify-center items-center px-2'>
+        <div className='flex flex-col justify-center items-center gap-y-5 pt-2 pb-1 '>
+          <Link href={"/admin"}>
             <Image
               src={logo}
-              alt="logo_Image"
+              alt='logo_Image'
               className={cn(`lg:px-1 h-[150px] w-[160px] `, collapsed && "hidden")}
             />
           </Link>
           <Link href={"/"}>
-            <Image
-              src={faviconLogo}
-              alt="logo_Image"
-              className={cn(`lg:px-1`, !collapsed && "hidden")}
-            />
+            <Image src={logo} alt='logo_Image' className={cn(`lg:px-1`, !collapsed && "hidden")} />
           </Link>
         </div>
       </div>
@@ -73,8 +76,8 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
         onClick={onClick}
         defaultSelectedKeys={["dashboard"]}
         selectedKeys={[current]}
-        mode="inline"
-        className="sidebar-menu text-lg bg-main-color !mt-1"
+        mode='inline'
+        className='sidebar-menu text-lg bg-main-color !mt-1'
         items={navLinks}
       />
     </Sider>
