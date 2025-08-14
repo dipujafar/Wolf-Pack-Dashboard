@@ -10,11 +10,11 @@ import useFcmToken from "@/hooks/useFcmToken";
 import { firebaseApp } from "../firebase/firebase";
 const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
   const { refetch } = useGetNotificationsQuery([]);
-  const [updateProfile] = useUpdateProfileMutation();
+  const [updateProfile] = useUpdateProfileMutation({});
   const { data, isLoading } = useGetProfileQuery([]);
   const user = data?.data as TUser;
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
-
+  console.log(fcmToken);
   useEffect(() => {
     if (fcmToken && notificationPermissionStatus === "granted" && !isLoading && !user?.fcmToken) {
       const formData = new FormData();
@@ -24,7 +24,7 @@ const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
       };
       refetch();
       formData.append("data", JSON.stringify(data));
-      updateProfile(formData);
+      //updateProfile(formData);
     }
   }, [fcmToken, notificationPermissionStatus, updateProfile, isLoading, user, refetch]);
 
@@ -35,9 +35,14 @@ const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
       const unsubscribe = onMessage(messaging, (payload) => {
         if (payload.notification?.title && payload.notification?.body) {
           refetch();
-          toast.custom((t) => (
-            <CustomToast title={payload.notification?.title} body={payload.notification?.body} />
-          ));
+          toast.custom(
+            (t) => (
+              <CustomToast title={payload.notification?.title} body={payload.notification?.body} />
+            ),
+            {
+              position: "bottom-left",
+            },
+          );
         }
       });
       return () => {

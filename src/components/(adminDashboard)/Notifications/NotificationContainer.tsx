@@ -1,9 +1,6 @@
 "use client";
 
-import { Pagination, Spin, Empty, Button } from "antd";
-import { useState } from "react";
-import moment from "moment";
-import { Trash2 } from "lucide-react";
+import { Success_model } from "@/lib/utils";
 import {
   useDeleteAllNotificationsMutation,
   useDeleteNotificationMutation,
@@ -11,7 +8,10 @@ import {
   useTestNotificationMutation,
 } from "@/redux/api/notificationApi";
 import { TNotification, TResponse } from "@/types";
-import { Success_model } from "@/lib/utils";
+import { Button, Empty, Pagination, Spin } from "antd";
+import { Trash2 } from "lucide-react";
+import moment from "moment";
+import { useState } from "react";
 
 const NotificationContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,7 +62,7 @@ const NotificationContainer = () => {
     }
   };
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className='flex justify-center items-center h-[80vh]'>
         <Spin size='large' />
@@ -75,14 +75,17 @@ const NotificationContainer = () => {
       {/* Header */}
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-2xl text-text-color font-semibold'>Notifications</h1>
-        {notifications.length > 0 && (
-          <Button danger type='primary' onClick={handleDeleteAll} loading={isDeletingAll}>
-            Delete All
-          </Button>
-        )}
-        <Button danger type='primary' onClick={handleDeleteAll} loading={isDeletingAll}>
-          Create Test Notification
-        </Button>
+        <div className='flex gap-x-2 items-center'>
+          {notifications.length > 0 ? (
+            <Button danger type='primary' onClick={handleDeleteAll} loading={isDeletingAll}>
+              Delete All
+            </Button>
+          ) : (
+            <Button danger type='primary' onClick={testNotification} loading={isCreating}>
+              Create Test Notification
+            </Button>
+          )}
+        </div>
       </div>
       <hr />
 
@@ -98,7 +101,7 @@ const NotificationContainer = () => {
             >
               <div className='flex-1'>
                 <div className='flex justify-between gap-x-2 items-center'>
-                  <h5 className='font-medium text-lg text-text-color'>{notification.title}</h5>
+                  <h5 className='font-medium text-lg text-gray-500'>{notification.title}</h5>
                   <p className='text-gray-500 text-sm'>
                     {moment(notification.createdAt).fromNow()}
                   </p>

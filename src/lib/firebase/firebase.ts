@@ -6,13 +6,13 @@ import { getMessaging } from "firebase/messaging";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  //apiKey: "AIzaSyB189eWtQty9XX7vKTSzg1h9r_z5gIgOXE",
-  //authDomain: "pentagoan-9a485.firebaseapp.com",
-  //projectId: "pentagoan-9a485",
-  //storageBucket: "pentagoan-9a485.firebasestorage.app",
-  //messagingSenderId: "279654279959",
-  //appId: "1:279654279959:web:80f2d010aa6268e1c06552",
-  //measurementId: "G-P8LQN292E2",
+  apiKey: "AIzaSyCoxaEWbPuPG4tZf0bW_-sZeSvVulw8WR8",
+  authDomain: "sales-e8f5a.firebaseapp.com",
+  projectId: "sales-e8f5a",
+  storageBucket: "sales-e8f5a.firebasestorage.app",
+  messagingSenderId: "852956645307",
+  appId: "1:852956645307:web:5f41b3e0338a1c6d2fa69e",
+  measurementId: "G-BBSBSRFEL4",
 };
 
 // Initialize Firebase
