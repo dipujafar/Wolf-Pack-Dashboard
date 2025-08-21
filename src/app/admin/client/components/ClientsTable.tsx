@@ -2,15 +2,25 @@
 
 import { useState } from "react";
 import { Button, Image, Input, message, Popconfirm, TableProps } from "antd";
-import { ArrowDownNarrowWide, Delete, DeleteIcon, Eye, PlusCircle, Search, Trash2 } from "lucide-react";
+import {
+  ArrowDownNarrowWide,
+  Delete,
+  DeleteIcon,
+  Download,
+  Eye,
+  PlusCircle,
+  Search,
+  Trash2,
+} from "lucide-react";
 import { CgUnblock } from "react-icons/cg";
 import Link from "next/link";
 
 import AddCloserForm from "./AddClientForm";
 import DataTable from "@/utils/DataTable";
-import { useGetAllClientsQuery } from "@/redux/api/clientApi";
+import { useDeleteClientMutation, useGetAllClientsQuery } from "@/redux/api/clientApi";
 import { useDebounced } from "@/redux/hooks";
 import { TClient, TResponse } from "@/types";
+import { Error_Modal, Success_model } from "@/lib/utils";
 
 const ClientsTable = () => {
   const [addCloserModal, setAddCloserModal] = useState(false);
@@ -28,13 +38,34 @@ const ClientsTable = () => {
     { label: "searchTerm", value: typeof searchTerm === "string" ? searchTerm : "" },
   ]);
 
+  const [deleteClient, { isLoading: isDeleteLoading }] = useDeleteClientMutation();
+
   const clientData = data?.data as TResponse<TClient[]>;
   const meta = clientData?.meta;
 
-  const handleBlockUser = (id: string) => {
-    // TODO: Implement block API call here
-    console.log(`Blocking user with ID: ${id}`);
-    message.success("Blocked the user");
+  const handleBlockUser = async (id: string) => {
+    try {
+      await deleteClient(id).unwrap();
+      Success_model({ title: "Client deleted successfully!!" });
+    } catch (error: any) {
+      console.error("Delete failed:", error);
+      Error_Modal({ title: error?.data?.message });
+    }
+  };
+
+  const handleExport = () => {
+    const jsonString = JSON.stringify(clientData?.data, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `closers_${new Date().toISOString()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
   };
 
   const columns: TableProps<TClient>["columns"] = [
@@ -122,7 +153,7 @@ const ClientsTable = () => {
             okText='Yes'
             cancelText='No'
           >
-            <Trash2 size={20} className="text-red-500" />
+            <Trash2 size={20} className='text-red-500' />
           </Popconfirm>
         </div>
       ),
@@ -148,8 +179,12 @@ const ClientsTable = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Button className='!border-none !h-[40px] !text-base lg:min-w-[250px] !bg-[#fcb80617]'>
-          <PlusCircle size={20} /> Export
+        <Button
+          className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12'
+          icon={<Download size={18} />}
+          onClick={handleExport}
+        >
+          Export
         </Button>
       </div>
 

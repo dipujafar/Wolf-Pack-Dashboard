@@ -36,8 +36,6 @@ const EarningTable = () => {
   const meta = closerData?.meta;
   const closerList = closerData?.data || [];
 
-  console.log(closerList);
-
   const columns: TableProps<TCloser>["columns"] = [
     {
       title: "Serial",
@@ -100,11 +98,27 @@ const EarningTable = () => {
     },
   ];
 
+  // Download JSON Function
+  const handleExport = () => {
+    const jsonString = JSON.stringify(closerList, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `closers_${new Date().toISOString()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+  };
+
   return (
-    <div className=''>
+    <div>
       <div className='mx-auto space-y-6'>
         {/* Commission Rate Section */}
-        <div className='space-y-4'>
+        {/*<div className='space-y-4'>
           <h2 className='text-white text-xl font-semibold'>Set Commission Rate</h2>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             <div>
@@ -131,7 +145,7 @@ const EarningTable = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </div>*/}
 
         {/* Search & Filters */}
         <div className='flex flex-col sm:flex-row gap-4 items-end'>
@@ -155,6 +169,7 @@ const EarningTable = () => {
           <Button
             className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12'
             icon={<Download size={18} />}
+            onClick={handleExport}
           >
             Export
           </Button>

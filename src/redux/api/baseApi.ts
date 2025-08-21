@@ -28,16 +28,19 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRefreshToken = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 401) {
+  if (result?.error?.status === 401 || result?.error?.status === 403) {
     try {
       const refreshToken = cookie.get("refresh-token");
+      if (!refreshToken) {
+        api.dispatch(logout());
+        return result;
+      }
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh-token`, {
         credentials: "include",
         body: JSON.stringify({
           refreshToken,
         }),
       });
-
       const data = await res.json();
       if (data?.data?.accessToken) {
         const user = api.getState().auth.user;

@@ -107,6 +107,14 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.users],
     }),
+    uploadFiles: builder.mutation({
+      query: (data) => ({
+        url: "/user/upload-files",
+        method: "POST",
+        //headers: { "Content-Type": "multipart/form-data" },
+        body: data,
+      }),
+    }),
   }),
 
   overrideExisting: true,
@@ -124,4 +132,5 @@ export const {
   useGetBadgesQuery,
   useTopUsersQuery,
   useGetPrizeWinnersQuery,
+  useUploadFilesMutation,
 } = userApi;

@@ -14,7 +14,6 @@ const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
   const { data, isLoading } = useGetProfileQuery([]);
   const user = data?.data as TUser;
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
-  console.log(fcmToken);
   useEffect(() => {
     if (fcmToken && notificationPermissionStatus === "granted" && !isLoading && !user?.fcmToken) {
       const formData = new FormData();

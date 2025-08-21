@@ -35,7 +35,7 @@ const entrySchema = z.object({
 
 const prizeSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, "Prize name is required"),
+  name: z.string().min(3, "Prize name is required"),
   icon: z.string().optional(),
   iconPath: z.string().optional(),
   tierLevel: z.number(),
@@ -45,7 +45,7 @@ const prizeSchema = z.object({
   file: z.any().optional(),
   entries: z
     .array(entrySchema)
-    .min(1, "At least 1 entry is required")
+    .min(3, "At least 3 entry is required")
     .max(3, "Max 3 entries allowed"),
 });
 
