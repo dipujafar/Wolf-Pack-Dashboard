@@ -7,10 +7,12 @@ import { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import FirebaseProvider from "./FirebaseProvider";
+import NextTopLoader from "nextjs-toploader";
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <Provider store={store}>
+      <NextTopLoader color='#FCB806' />
       <PersistGate loading={null} persistor={persistor}>
         <FirebaseProvider>
           <AntdRegistry>
