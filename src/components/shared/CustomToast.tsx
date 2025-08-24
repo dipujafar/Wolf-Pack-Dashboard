@@ -5,6 +5,7 @@ import type React from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useGetNotificationsQuery } from "@/redux/api/notificationApi";
 
 type TCustomToastProps = {
   title?: string;
@@ -23,7 +24,6 @@ const CustomToast = ({
 }: TCustomToastProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
-
   const handleClose = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -54,7 +54,7 @@ const CustomToast = ({
     <div
       className={`
         transform transition-all duration-200 ease-out
-        ${isExiting ? "translate-x-full opacity-0" : "translate-x-0 opacity-100"}
+        ${isExiting ? "translate-x-full opacity-0" : "-translate-x-0 opacity-100"}
       `}
     >
       <Link

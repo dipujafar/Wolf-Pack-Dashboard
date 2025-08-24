@@ -36,45 +36,44 @@ const RecentlyUser = () => {
     {
       title: "Serial",
       dataIndex: "serial",
-      align: "center",
+      //align: "center",
       render: (text) => <p>#{text}</p>,
     },
     {
       title: "User Name",
       dataIndex: "name",
-      align: "center",
+      //align: "center",
       render: (text, record) => (
-        <div className='flex  justify-center items-center gap-x-1'>
+        <div className='flex gap-x-3'>
           <Image
             src={record.profilePicture}
             alt='profile-picture'
             width={40}
             height={40}
-            className='size-10'
+            className='size-10 aspect-square object-cover rounded-full'
           ></Image>
-          <p>{text}</p>
+          <p className='font-bold'>{text}</p>
         </div>
       ),
     },
     {
       title: "Email",
       dataIndex: "email",
-      align: "center",
+      //align: "center",
     },
-
     {
       title: " Date",
       dataIndex: "createdAt",
-      align: "center",
+      //align: "center",
       render: (text) => <p>{moment(text).format("LL")}</p>,
     },
 
     {
       title: "Action",
       dataIndex: "action",
-      align: "center",
+      //align: "center",
       render: (text, record) => (
-        <div className='flex justify-center gap-2'>
+        <div className='flex items-center gap-2'>
           <Eye
             size={22}
             color='#78C0A8'

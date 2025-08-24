@@ -18,6 +18,7 @@ import { useState } from "react";
 import CreatePrizeForm, { months } from "./create-prize-form";
 import EditPrizeForm from "./edit-prize-form";
 import PrizeDetails from "./prize-details";
+import moment from "moment";
 
 // Mock data
 const currentYear = new Date().getFullYear();
@@ -34,6 +35,9 @@ export default function PrizeManagement() {
   const [selectedPrize, setSelectedPrize] = useState<any>(null);
   const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
   const { data, isLoading } = useGetAllPrizeQuery([{ label: "year", value: selectedYear }]);
+
+  const currentMonth = moment().month() + 1;
+  console.log({ currentMonth });
 
   const prizeData = (data?.data as TPrize[]) || [];
   const handleViewPrize = (prize: any) => {

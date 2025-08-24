@@ -31,6 +31,11 @@ export const navLinks = [
     label: <Link href={"/admin/client"}>Clients Management</Link>,
   },
   {
+    key: "deals",
+    icon: <AlignJustify size={18} />,
+    label: <Link href={"/admin/deals"}>Deals Approval</Link>,
+  },
+  {
     key: "tracks-sales",
     icon: <ChartColumnIncreasing size={18} />,
     label: <Link href={"/admin/tracks-sales"}>Tracks Sales</Link>,

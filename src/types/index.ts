@@ -67,6 +67,9 @@ export type TUser = {
   rank: number;
   fcmToken?: string;
   myAchievements: TAchievement[];
+  _count: {
+    notifications: number;
+  };
 };
 
 export type TMetaCount = {
@@ -233,3 +236,14 @@ export interface Entry {
   createdAt: string;
   updatedAt: string;
 }
+
+export type TPromotion = {
+  id: string;
+  title: string;
+  emails: string[];
+  datetime: string;
+  message: string;
+  isTrigger: boolean;
+  createdAt: string;
+  updatedAt: string;
+};

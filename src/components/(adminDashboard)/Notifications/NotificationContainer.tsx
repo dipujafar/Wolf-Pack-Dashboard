@@ -5,11 +5,12 @@ import {
   useDeleteAllNotificationsMutation,
   useDeleteNotificationMutation,
   useGetNotificationsQuery,
+  useSeenNotificationMutation,
   useTestNotificationMutation,
 } from "@/redux/api/notificationApi";
 import { TNotification, TResponse } from "@/types";
 import { Button, Empty, Pagination, Spin } from "antd";
-import { Trash2 } from "lucide-react";
+import { Circle, RefreshCw, Trash2 } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
 
@@ -31,6 +32,7 @@ const NotificationContainer = () => {
   const [deleteNotification, { isLoading: isDeleting }] = useDeleteNotificationMutation();
   const [deleteAllNotification, { isLoading: isDeletingAll }] = useDeleteAllNotificationsMutation();
   const [create, { isLoading: isCreating }] = useTestNotificationMutation();
+  const [seenNotification, { isLoading: isSeen }] = useSeenNotificationMutation();
 
   const notificationResult = data?.data as TResponse<TNotification[]>;
   const meta = notificationResult?.meta;
@@ -62,6 +64,15 @@ const NotificationContainer = () => {
     }
   };
 
+  const handleSeenNotification = async () => {
+    try {
+      await seenNotification(undefined).unwrap();
+      //Success_model({ title: "All notifications deleted successfully" });
+    } catch (err) {
+      console.error("Failed to delete all notifications", err);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className='flex justify-center items-center h-[80vh]'>
@@ -77,9 +88,18 @@ const NotificationContainer = () => {
         <h1 className='text-2xl text-text-color font-semibold'>Notifications</h1>
         <div className='flex gap-x-2 items-center'>
           {notifications.length > 0 ? (
-            <Button danger type='primary' onClick={handleDeleteAll} loading={isDeletingAll}>
-              Delete All
-            </Button>
+            <>
+              {" "}
+              <Button type='primary' onClick={handleSeenNotification} loading={isSeen}>
+                Market As Read
+              </Button>
+              <Button danger type='primary' onClick={handleDeleteAll} loading={isDeletingAll}>
+                Delete All
+              </Button>
+              <Button danger type='primary' onClick={refetch}>
+                <RefreshCw size={20} className={`${isFetching ? "animate-spin" : ""}`} />
+              </Button>
+            </>
           ) : (
             <Button danger type='primary' onClick={testNotification} loading={isCreating}>
               Create Test Notification
@@ -97,7 +117,9 @@ const NotificationContainer = () => {
           notifications.map((notification) => (
             <div
               key={notification.id}
-              className='flex items-center gap-x-4 bg-white shadow rounded-lg p-4'
+              className={`flex items-center gap-x-4 shadow rounded-lg p-4 ${
+                notification.isRead ? "bg-gray-100" : "bg-white"
+              }`}
             >
               <div className='flex-1'>
                 <div className='flex justify-between gap-x-2 items-center'>

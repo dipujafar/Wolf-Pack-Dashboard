@@ -1,10 +1,4 @@
 "use client";
-import { Avatar, Badge, Flex } from "antd";
-import { FaBars } from "react-icons/fa6";
-import { IoNotificationsOutline } from "react-icons/io5";
-import Link from "next/link";
-import { X } from "lucide-react";
-import useGreeting from "@/hooks/useGreeting";
 import {
   Menubar,
   MenubarContent,
@@ -14,11 +8,15 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { ChevronRight } from "lucide-react";
-import avatarImg from "@/assets/image/profile.png";
+import useGreeting from "@/hooks/useGreeting";
 import { cn } from "@/lib/utils";
 import { useGetProfileQuery } from "@/redux/api/userApi";
 import { TUser } from "@/types";
+import { Avatar, Badge, Flex } from "antd";
+import { ChevronRight, X } from "lucide-react";
+import Link from "next/link";
+import { FaBars } from "react-icons/fa6";
+import { IoNotificationsOutline } from "react-icons/io5";
 
 type TNavbarProps = {
   collapsed: boolean;
@@ -30,6 +28,8 @@ const Navbar = ({ collapsed, setCollapsed }: TNavbarProps) => {
 
   const { data, isLoading } = useGetProfileQuery([]);
   const user = data?.data as TUser;
+
+  const notificationCount = user?._count?.notifications || 0;
 
   return (
     <div className='flex items-center justify-between w-[97%] font-poppins text-text-color xl:px-8 px-4'>
@@ -62,19 +62,21 @@ const Navbar = ({ collapsed, setCollapsed }: TNavbarProps) => {
           <div className='flex justify-center items-center size-10  rounded-full cursor-pointer relative border border-main-color'>
             <IoNotificationsOutline size={24} color='#AB9D6E' />
 
-            <Badge
-              count={1}
-              style={{
-                border: "none",
-                boxShadow: "none",
-                backgroundColor: "var(--color-main)",
-                color: "#fff",
-                position: "absolute",
-                top: "-24px",
-                right: "-8px",
-                fontSize: "10px",
-              }}
-            ></Badge>
+            {notificationCount > 0 && (
+              <Badge
+                count={notificationCount}
+                style={{
+                  border: "none",
+                  boxShadow: "none",
+                  backgroundColor: "var(--color-main)",
+                  color: "#fff",
+                  position: "absolute",
+                  top: "-24px",
+                  right: "-16px",
+                  fontSize: "10px",
+                }}
+              ></Badge>
+            )}
           </div>
         </Link>
 
