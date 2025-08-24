@@ -1,20 +1,17 @@
 "use client";
 
-import { Button, Input, message, Popconfirm, PopconfirmProps, TableProps, Tag } from "antd";
-import { useState, useMemo } from "react";
-import DataTable from "@/utils/DataTable";
-import { CgUnblock } from "react-icons/cg";
-import { ArrowDownNarrowWide, Download, Eye, PlusCircle, Search } from "lucide-react";
-import AddCloserForm from "./AddCloserForm";
-import Link from "next/link";
-import { useGetAllClosersQuery } from "@/redux/api/closerApi";
-import { TCloser, TUser } from "@/types";
-import dayjs from "dayjs";
-import { useDebounced } from "@/redux/hooks";
-import { useAllUserQuery, useUpdateUserStatusMutation } from "@/redux/api/userApi";
-import Image from "next/image";
-import moment from "moment";
 import { Error_Modal, Success_model } from "@/lib/utils";
+import { useAllUserQuery, useUpdateUserStatusMutation } from "@/redux/api/userApi";
+import { useDebounced } from "@/redux/hooks";
+import { TUser } from "@/types";
+import DataTable from "@/utils/DataTable";
+import { Button, Input, Popconfirm, TableProps } from "antd";
+import { Download, Eye, Search } from "lucide-react";
+import moment from "moment";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { CgUnblock } from "react-icons/cg";
 
 const CloserTable = () => {
   const [page, setPage] = useState(1);
@@ -43,7 +40,6 @@ const CloserTable = () => {
 
   const closerData = (cData?.data || []) as TUser[];
   const totalItems = cData?.meta?.total;
-  console.log(closerData, "closerData");
   const confirmBlock = async (user: TUser) => {
     try {
       const res = await updateUser({

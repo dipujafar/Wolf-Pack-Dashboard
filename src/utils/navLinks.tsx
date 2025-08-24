@@ -6,6 +6,7 @@ import {
   Award,
   ChartColumnIncreasing,
   ClipboardList,
+  Handshake,
   ListChecks,
   LogOut,
   Star,
@@ -32,7 +33,7 @@ export const navLinks = [
   },
   {
     key: "deals",
-    icon: <AlignJustify size={18} />,
+    icon: <Handshake size={18} />,
     label: <Link href={"/admin/deals"}>Deals Approval</Link>,
   },
   {
