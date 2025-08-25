@@ -216,7 +216,7 @@ const CloserTable = () => {
     <div className='rounded-md'>
       <div className='flex justify-between items-center px-3 py-5 gap-3 sm:gap-5'>
         <Input
-          className='lg:w-full !py-2 placeholder:!text-white !bg-transparent !text-white !border-[#f4dede]'
+          className='lg:w-full !py-2 placeholder:!text-white !bg-transparent !text-white !border !border-[#FCB806] h-12'
           placeholder='Search here...'
           prefix={<Search size={16} color='#fff' />}
           value={search}
@@ -230,7 +230,7 @@ const CloserTable = () => {
             <PlusCircle size={18} /> Add Closer
           </Button>*/}
           <Button
-            className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12'
+            className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12 border-[#FCB806]'
             icon={<Download size={18} />}
             onClick={handleExport}
           >

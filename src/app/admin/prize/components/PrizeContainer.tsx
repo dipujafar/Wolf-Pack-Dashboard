@@ -37,7 +37,6 @@ export default function PrizeManagement() {
   const { data, isLoading } = useGetAllPrizeQuery([{ label: "year", value: selectedYear }]);
 
   const currentMonth = moment().month() + 1;
-  console.log({ currentMonth });
 
   const prizeData = (data?.data as TPrize[]) || [];
   const handleViewPrize = (prize: any) => {

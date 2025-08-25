@@ -73,7 +73,6 @@ const CloserDetails = ({ clientId }: { clientId: string }) => {
   const statuses = ["Pending", "In Progress", "Completed"];
 
   function onSubmit(values: FormValues) {
-    console.log(values);
     form.reset();
   }
 
@@ -88,7 +87,6 @@ const CloserDetails = ({ clientId }: { clientId: string }) => {
     );
   }
 
-  console.log(clientData);
 
   if (!clientData?.closer?.id) {
     return (

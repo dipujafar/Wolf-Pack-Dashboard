@@ -28,9 +28,12 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRefreshToken = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
 
+  console.log(result, "result");
+
   if (result?.error?.status === 401 || result?.error?.status === 403) {
     try {
       const refreshToken = cookie.get("refresh-token");
+      console.log({ refreshToken });
       if (!refreshToken) {
         api.dispatch(logout());
         return result;

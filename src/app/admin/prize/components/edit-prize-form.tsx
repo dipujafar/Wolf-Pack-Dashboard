@@ -139,8 +139,7 @@ export default function EditPrizeForm({ prize, onSuccess }: EditPrizeFormProps) 
         }),
       };
 
-      //console.log(payload);
-      //return;
+
 
       const formData = new FormData();
       formData.append("data", JSON.stringify(payload));

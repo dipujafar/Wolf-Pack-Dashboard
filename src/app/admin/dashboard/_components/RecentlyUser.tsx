@@ -1,15 +1,15 @@
 "use client";
-import { Image, message, Popconfirm, PopconfirmProps, TableProps } from "antd";
+import { Image, Popconfirm, TableProps } from "antd";
 
-import { useState } from "react";
-import DataTable from "@/utils/DataTable";
-import { CgUnblock } from "react-icons/cg";
-import { ArrowDownNarrowWide, Eye } from "lucide-react";
 import UserDetails from "@/components/(adminDashboard)/user/UserDetails";
+import { Error_Modal, Success_model } from "@/lib/utils";
 import { useAllUserQuery, useUpdateUserStatusMutation } from "@/redux/api/userApi";
 import { TUser } from "@/types";
+import DataTable from "@/utils/DataTable";
+import { Eye } from "lucide-react";
 import moment from "moment";
-import { Error_Modal, Success_model } from "@/lib/utils";
+import { useState } from "react";
+import { CgUnblock } from "react-icons/cg";
 
 const RecentlyUser = () => {
   const [open, setOpen] = useState<TUser | null>(null);
@@ -100,7 +100,12 @@ const RecentlyUser = () => {
 
   return (
     <div className='rounded-2xl'>
-      <DataTable columns={columns} data={usersData}></DataTable>
+      <DataTable
+        columns={columns}
+        data={usersData}
+        pagination={false}
+        loading={isLoading}
+      ></DataTable>
       <UserDetails open={open} setOpen={setOpen}></UserDetails>
     </div>
   );

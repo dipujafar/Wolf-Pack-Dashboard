@@ -183,7 +183,7 @@ const DealContainer = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             prefix={<Search size={16} className='text-gray-400' />}
-            className='!bg-[#2a2a2a] !text-white !border !border-[#FCB806] !py-3'
+            className='!bg-transparent !text-white !border !border-[#FCB806] !py-3'
           />
           {/*<Select
             defaultValue='this-month'

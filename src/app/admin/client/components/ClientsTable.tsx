@@ -165,22 +165,22 @@ const ClientsTable = () => {
       {/* Add Client Button */}
       <Button
         onClick={() => setAddCloserModal(true)}
-        className='w-full !border-none !h-[45px] !text-lg'
+        className='w-full !border-none !h-[45px] !text-lg hover:!bg-none'
       >
         <PlusCircle /> Add Client
       </Button>
 
       {/* Search and Export */}
-      <div className='flex justify-between items-center px-3 py-5'>
+      <div className='flex justify-between items-center px-3 gap-x-6 py-5'>
         <Input
-          className='lg:!w-[250px] !py-2 placeholder:!text-white !bg-transparent !text-white !border-[#f4dede]'
+          className='lg:w-full !py-2 !h-12 placeholder:!text-white !bg-transparent !text-white !border-[#f4dede]'
           placeholder='Search here...'
           prefix={<Search size={16} color='#fff' />}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <Button
-          className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12'
+          className='!bg-[#FCB806] border-none !text-black !font-semibold !py-3 !h-12'
           icon={<Download size={18} />}
           onClick={handleExport}
         >

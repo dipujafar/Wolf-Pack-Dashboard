@@ -37,7 +37,7 @@ const userApi = baseApi.injectEndpoints({
           }
         });
         return {
-          url: "user/top-users",
+          url: "user/top-performers",
           method: "GET",
           params,
         };

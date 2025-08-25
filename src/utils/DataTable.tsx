@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Pagination, Table } from "antd";
 import { TableProps } from "antd/lib/table";
 
 interface DataTableProps<T> {
@@ -8,6 +8,7 @@ interface DataTableProps<T> {
   total?: number;
   currentPage?: number;
   loading?: boolean;
+  pagination?: boolean;
   onPageChange?: (page: number, pageSize: number) => void;
 }
 
@@ -19,6 +20,7 @@ const DataTable = <T extends object>({
   currentPage,
   loading = false,
   onPageChange,
+  pagination = true,
 }: DataTableProps<T>) => {
   return (
     <Table
@@ -26,17 +28,19 @@ const DataTable = <T extends object>({
       dataSource={data}
       loading={loading}
       rowKey={(record) => (record as any).id || Math.random()} // prevent key warnings
-      pagination={{
-        position: ["bottomCenter"],
-        pageSize,
-        total,
-        current: currentPage,
-        showSizeChanger: true,
-        showTotal: (total) => `Total ${total} items`,
-        onChange: (page, size) => {
-          if (onPageChange) onPageChange(page, size);
-        },
-      }}
+      pagination={
+        pagination && {
+          position: ["bottomCenter"],
+          pageSize,
+          total,
+          current: currentPage,
+          showSizeChanger: true,
+          showTotal: (total) => `Total ${total} items`,
+          onChange: (page, size) => {
+            if (onPageChange) onPageChange(page, size);
+          },
+        }
+      }
       scroll={{ x: "max-content" }}
     />
   );
