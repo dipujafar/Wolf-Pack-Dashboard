@@ -59,7 +59,7 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
 
       <div className='    bottom-1 flex justify-center items-center px-2'>
         <div className='flex flex-col justify-center items-center gap-y-5 pt-2 pb-1 '>
-          <Link href={"/admin"}>
+          <Link href={"/admin/dashboard"}>
             <Image
               src={logo}
               alt='logo_Image'

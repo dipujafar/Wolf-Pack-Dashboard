@@ -6,7 +6,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import AddLeagueForm from "./AddLeagueForm";
 import { useGetLeaguesQuery, useDeleteLeagueMutation } from "@/redux/api/leagueApi"; // Adjust path to your actual API slice
-import { TLeague } from "@/types";
+//import { TLeague } from "@/types";
 import { Error_Modal, Success_model } from "@/lib/utils";
 import { useDebounced } from "@/redux/hooks";
 
@@ -21,7 +21,7 @@ const LeaderboardContainer = () => {
       value: searchTerm.toString(),
     },
   ]);
-  const leagues = (data?.data as TLeague[]) || [];
+  //const leagues = (data?.data as TLeague[]) || [];
 
   // ✅ Delete mutation
   const [deleteLeague, { isLoading: isDeleting }] = useDeleteLeagueMutation();
@@ -36,73 +36,73 @@ const LeaderboardContainer = () => {
     }
   };
 
-  const columns: TableProps<TLeague>["columns"] = [
-    {
-      title: "Serial",
-      dataIndex: "id", // not actually used for render
-      align: "center",
-      width: 80,
-      render: (_, __, index) => <span className='text-white'>#{index + 1}</span>,
-    },
-    {
-      title: "League Name",
-      dataIndex: "name",
-      align: "center",
-      render: (text: string) => <span className='text-white'>{text}</span>,
-    },
-    {
-      title: "Deal Amount",
-      dataIndex: "dealAmount",
-      align: "center",
-      render: (amount: number) => <span className='text-white'>€{amount ? `${amount}` : "-"}</span>,
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      align: "center",
-      render: (description: string) => (
-        <span className='text-white'>{description ? `${description}` : "-"}</span>
-      ),
-    },
-    {
-      title: "Date & Time",
-      dataIndex: "createdAt", // use actual date field
-      align: "center",
-      render: (date: string) => (
-        <span className='text-white'>
-          {new Date(date).toLocaleString("en-GB", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </span>
-      ),
-    },
-    {
-      title: "Action",
-      dataIndex: "id",
-      align: "center",
-      render: (_: string, record: TLeague) => (
-        <Popconfirm
-          title='Delete'
-          description={`Are you sure to delete?`}
-          onConfirm={() => handleDelete(record.id)}
-          okText='Yes'
-          cancelText='No'
-        >
-          <Button
-            size='icon'
-            className='text-white bg-red-600 hover:bg-red-500'
-            disabled={isDeleting}
-          >
-            <Trash2 className='size-4' />
-          </Button>
-        </Popconfirm>
-      ),
-    },
-  ];
+  //const columns: TableProps<TLeague>["columns"] = [
+  //  {
+  //    title: "Serial",
+  //    dataIndex: "id", // not actually used for render
+  //    align: "center",
+  //    width: 80,
+  //    render: (_, __, index) => <span className='text-white'>#{index + 1}</span>,
+  //  },
+  //  {
+  //    title: "League Name",
+  //    dataIndex: "name",
+  //    align: "center",
+  //    render: (text: string) => <span className='text-white'>{text}</span>,
+  //  },
+  //  {
+  //    title: "Deal Amount",
+  //    dataIndex: "dealAmount",
+  //    align: "center",
+  //    render: (amount: number) => <span className='text-white'>€{amount ? `${amount}` : "-"}</span>,
+  //  },
+  //  {
+  //    title: "Description",
+  //    dataIndex: "description",
+  //    align: "center",
+  //    render: (description: string) => (
+  //      <span className='text-white'>{description ? `${description}` : "-"}</span>
+  //    ),
+  //  },
+  //  {
+  //    title: "Date & Time",
+  //    dataIndex: "createdAt", // use actual date field
+  //    align: "center",
+  //    render: (date: string) => (
+  //      <span className='text-white'>
+  //        {new Date(date).toLocaleString("en-GB", {
+  //          day: "2-digit",
+  //          month: "short",
+  //          year: "numeric",
+  //          hour: "2-digit",
+  //          minute: "2-digit",
+  //        })}
+  //      </span>
+  //    ),
+  //  },
+  //  {
+  //    title: "Action",
+  //    dataIndex: "id",
+  //    align: "center",
+  //    render: (_: string, record: TLeague) => (
+  //      <Popconfirm
+  //        title='Delete'
+  //        description={`Are you sure to delete?`}
+  //        onConfirm={() => handleDelete(record.id)}
+  //        okText='Yes'
+  //        cancelText='No'
+  //      >
+  //        <Button
+  //          size='icon'
+  //          className='text-white bg-red-600 hover:bg-red-500'
+  //          disabled={isDeleting}
+  //        >
+  //          <Trash2 className='size-4' />
+  //        </Button>
+  //      </Popconfirm>
+  //    ),
+  //  },
+  //];
 
   return (
     <div className='space-y-4'>
@@ -130,7 +130,7 @@ const LeaderboardContainer = () => {
 
       {/* Table */}
       <div className='rounded-lg overflow-hidden'>
-        <Table
+        {/*<Table
           columns={columns}
           dataSource={leagues}
           loading={isLoading}
@@ -138,7 +138,7 @@ const LeaderboardContainer = () => {
           rowKey='key'
           className='custom-table'
           style={{ backgroundColor: "#1f2937" }}
-        />
+        />*/}
       </div>
 
       {/* Add League Modal */}

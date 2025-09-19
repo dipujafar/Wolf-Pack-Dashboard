@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useState } from "react";
 import AddBadgeForm from "./AddBadgeForm";
 import { useGetAllBadgesQuery, useDeleteBadgeMutation } from "@/redux/api/badgeApi";
-import { TBadge } from "@/types";
+//import { TBadge } from "@/types";
 import { useDebounced } from "@/redux/hooks";
 
 export default function ManageBadgeContainer() {
@@ -21,7 +21,7 @@ export default function ManageBadgeContainer() {
       value: searchTerm.toString(),
     },
   ]);
-  const badges = (data?.data as TBadge[]) || [];
+  //const badges = (data?.data as TBadge[]) || [];
 
   const [deleteBadge, { isLoading: isDeleting }] = useDeleteBadgeMutation();
 
@@ -33,69 +33,69 @@ export default function ManageBadgeContainer() {
     }
   };
 
-  const columns: TableProps<TBadge>["columns"] = [
-    {
-      title: "Serial",
-      align: "center",
-      render: (_, __, index) => <span className='text-white'>#{index + 1}</span>,
-    },
-    {
-      title: "Name & Icon",
-      dataIndex: "name",
-      align: "center",
-      render: (_, record) => (
-        <div className='flex items-center justify-center gap-x-3'>
-          <Image
-            src={record.icon}
-            alt={record.name}
-            width={40}
-            height={40}
-            className='rounded-full object-cover'
-          />
-          <p className='text-white'>{record.name}</p>
-        </div>
-      ),
-    },
-    {
-      title: "Deal Count",
-      dataIndex: "dealCount",
-      align: "center",
-      render: (dealCount) => <span className='text-white'>{dealCount}</span>,
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      align: "center",
-      render: (description) => <span className='text-white'>{description}</span>,
-    },
-    {
-      title: "Created At",
-      dataIndex: "createdAt",
-      align: "center",
-      render: (date) => <span className='text-white'>{new Date(date).toLocaleString()}</span>,
-    },
-    {
-      title: "Action",
-      align: "center",
-      render: (_, record) => (
-        <Popconfirm
-          title='Delete'
-          description={`Are you sure to delete?`}
-          onConfirm={() => handleDelete(record.id)}
-          okText='Yes'
-          cancelText='No'
-        >
-          <Button
-            size='icon'
-            className='text-white bg-red-600 hover:bg-red-500'
-            disabled={isDeleting}
-          >
-            <Trash2 className='size-4' />
-          </Button>
-        </Popconfirm>
-      ),
-    },
-  ];
+  //const columns: TableProps<TBadge>["columns"] = [
+  //  {
+  //    title: "Serial",
+  //    align: "center",
+  //    render: (_, __, index) => <span className='text-white'>#{index + 1}</span>,
+  //  },
+  //  {
+  //    title: "Name & Icon",
+  //    dataIndex: "name",
+  //    align: "center",
+  //    render: (_, record) => (
+  //      <div className='flex items-center justify-center gap-x-3'>
+  //        <Image
+  //          src={record.icon}
+  //          alt={record.name}
+  //          width={40}
+  //          height={40}
+  //          className='rounded-full object-cover'
+  //        />
+  //        <p className='text-white'>{record.name}</p>
+  //      </div>
+  //    ),
+  //  },
+  //  {
+  //    title: "Deal Count",
+  //    dataIndex: "dealCount",
+  //    align: "center",
+  //    render: (dealCount) => <span className='text-white'>{dealCount}</span>,
+  //  },
+  //  {
+  //    title: "Description",
+  //    dataIndex: "description",
+  //    align: "center",
+  //    render: (description) => <span className='text-white'>{description}</span>,
+  //  },
+  //  {
+  //    title: "Created At",
+  //    dataIndex: "createdAt",
+  //    align: "center",
+  //    render: (date) => <span className='text-white'>{new Date(date).toLocaleString()}</span>,
+  //  },
+  //  {
+  //    title: "Action",
+  //    align: "center",
+  //    render: (_, record) => (
+  //      <Popconfirm
+  //        title='Delete'
+  //        description={`Are you sure to delete?`}
+  //        onConfirm={() => handleDelete(record.id)}
+  //        okText='Yes'
+  //        cancelText='No'
+  //      >
+  //        <Button
+  //          size='icon'
+  //          className='text-white bg-red-600 hover:bg-red-500'
+  //          disabled={isDeleting}
+  //        >
+  //          <Trash2 className='size-4' />
+  //        </Button>
+  //      </Popconfirm>
+  //    ),
+  //  },
+  //];
 
   return (
     <div className='space-y-6'>
@@ -115,7 +115,7 @@ export default function ManageBadgeContainer() {
       />
 
       <div className='rounded-lg overflow-hidden'>
-        <Table
+        {/*<Table
           columns={columns}
           dataSource={badges}
           loading={isLoading}
@@ -123,7 +123,7 @@ export default function ManageBadgeContainer() {
           pagination={{ pageSize: 10, showSizeChanger: false, hideOnSinglePage: true }}
           className='custom-table'
           style={{ backgroundColor: "#1f2937" }}
-        />
+        />*/}
       </div>
 
       <AddBadgeForm open={visible} setOpen={setVisible} />
