@@ -3,14 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { useGetBadgesQuery, useGetSingleUserQuery } from "@/redux/api/userApi";
-import { TBadges, TUser } from "@/types";
+import { TUser } from "@/types";
 import { Spin } from "antd";
 
 export default function ProfileInformation({ id }: { id: string }) {
   const { data, isLoading } = useGetSingleUserQuery(id);
   const userData = data?.data as TUser;
   const { data: badgesData, isLoading: isLoadingBadges } = useGetBadgesQuery(id);
-  const badgeResult = badgesData?.data as TBadges;
+  //const badgeResult = badgesData?.data as TBadges;
 
   if (isLoading || isLoadingBadges) {
     return <Spin />;
@@ -118,7 +118,7 @@ export default function ProfileInformation({ id }: { id: string }) {
             {/* Badge */}
             <div className='bg-stone-800/50 rounded-lg p-4 border border-stone-700'>
               <div className='text-stone-400 text-sm mb-2'>Badge</div>
-              <div className='space-y-1'>
+              {/*<div className='space-y-1'>
                 <div className='text-stone-200 text-sm font-medium'>
                   {badgeResult?.data?.length} earned
                 </div>
@@ -130,7 +130,7 @@ export default function ProfileInformation({ id }: { id: string }) {
                     .join(", ")}
                   )
                 </div>
-              </div>
+              </div>*/}
             </div>
           </div>
         </CardContent>

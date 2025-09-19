@@ -9,6 +9,7 @@ import { Button, Checkbox, Form, Input, Flex } from "antd";
 import Link from "next/link";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
+import useFcmToken from "@/hooks/useFcmToken";
 
 type FieldType = {
   email?: string;
@@ -23,11 +24,15 @@ const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
 const LoginForm = () => {
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
+  const { fcmToken } = useFcmToken();
   const router = useRouter();
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
-      const userData = { email: values?.email, password: values?.password };
+      const userData: any = { email: values?.email, password: values?.password };
+      if (fcmToken) {
+        userData["fcmToken"] = fcmToken;
+      }
       const res = await login(userData).unwrap();
 
       if (res?.data?.accessToken) {
@@ -84,7 +89,8 @@ const LoginForm = () => {
         name='password'
         rules={[{ required: true, message: "Please input your password!" }]}
       >
-        <Input.Password
+        <Input
+          type='password'
           size='large'
           className='placeholder:!text-[#818181] placeholder:!text-sm'
           placeholder='Password'
@@ -103,6 +109,7 @@ const LoginForm = () => {
       </Form.Item>
 
       <Button
+        loading={isLoading}
         style={{
           background: "linear-gradient(180deg, #FCB806 0.89%, #1A2935 100.89%)",
           boxShadow: "7px 8px 4.7px 0px rgba(0, 0, 0, 0.08) inset",

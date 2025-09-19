@@ -6,17 +6,19 @@ import { ConfigProvider } from "antd";
 import { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-//import FirebaseProvider from "./FirebaseProvider";
+import FirebaseProvider from "./FirebaseProvider";
+import NextTopLoader from "nextjs-toploader";
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <Provider store={store}>
+      <NextTopLoader color='#FCB806' />
       <PersistGate loading={null} persistor={persistor}>
-        {/*<FirebaseProvider>*/}
+        <FirebaseProvider>
           <AntdRegistry>
             <ConfigProvider theme={antTheme}>{children}</ConfigProvider>
           </AntdRegistry>
-        {/*</FirebaseProvider>*/}
+        </FirebaseProvider>
       </PersistGate>
     </Provider>
   );

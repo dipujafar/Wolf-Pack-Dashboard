@@ -28,29 +28,39 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRefreshToken = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 401) {
-    const refreshToken = cookie.get("refresh-token");
-    const res = await fetch(`http://10.10.10.9:3000/api/auth/refresh`, {
-      method: "POST",
-      credentials: "include",
-      body: JSON.stringify({
-        refreshToken,
-      }),
-    });
+  console.log(result, "result");
 
-    const data = await res.json();
-    if (data?.data?.accessToken) {
-      const user = api.getState().auth.user;
-
-      api.dispatch(
-        setUser({
-          user,
-          token: data.data.accessToken,
+  if (result?.error?.status === 401 || result?.error?.status === 403) {
+    try {
+      const refreshToken = cookie.get("refresh-token");
+      console.log({ refreshToken });
+      if (!refreshToken) {
+        api.dispatch(logout());
+        return result;
+      }
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh-token`, {
+        credentials: "include",
+        body: JSON.stringify({
+          refreshToken,
         }),
-      );
+      });
+      const data = await res.json();
+      if (data?.data?.accessToken) {
+        const user = api.getState().auth.user;
 
-      result = await baseQuery(args, api, extraOptions);
-    } else {
+        api.dispatch(
+          setUser({
+            user,
+            token: data.data.accessToken,
+          }),
+        );
+
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        api.dispatch(logout());
+      }
+    } catch (error) {
+      console.log(error);
       api.dispatch(logout());
     }
   }
@@ -61,7 +71,6 @@ const baseQueryWithRefreshToken = async (args: any, api: any, extraOptions: any)
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-
   tagTypes: tagTypesList,
   endpoints: () => ({}),
 });

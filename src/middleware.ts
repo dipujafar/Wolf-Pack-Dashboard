@@ -15,15 +15,18 @@ export default function middleware(req: NextRequest) {
   const isAdminRoute = adminRoutes.includes(nextUrl.pathname);
   // If user exists redirect to `/home`
   let decode: TTokenUser | null = null;
+
   if (isLoggedIn && isAuthRoute) {
     return NextResponse.redirect(new URL("/admin/dashboard", req.url));
   }
   if (!isLoggedIn && !isAuthRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
+
   if (!isLoggedIn && isAuthRoute) {
     return NextResponse.next();
   }
+
   try {
     decode = jwtDecode(isLoggedIn || "");
     if (!decode) {
@@ -37,10 +40,10 @@ export default function middleware(req: NextRequest) {
     }
   } catch (error) {
     console.log(error);
-    //return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 }
 
 export const config = {
-  matcher: ["/login", "/admin", "/forgetPassword", "/resetPassword"],
+  matcher: ["/login", "/admin/:path", "/forgetPassword", "/resetPassword"],
 };

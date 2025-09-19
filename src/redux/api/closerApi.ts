@@ -27,7 +27,17 @@ const closerApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.closer],
     }),
+
+    updateCloser: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/closer/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.closers, tagTypes.closer],
+    }),
   }),
 });
 
-export const { useGetAllClosersQuery, useGetSingleCloserQuery } = closerApi;
+export const { useGetAllClosersQuery, useGetSingleCloserQuery, useUpdateCloserMutation } =
+  closerApi;

@@ -66,6 +66,10 @@ export type TUser = {
   avgDealAmount: number;
   rank: number;
   fcmToken?: string;
+  myAchievements: TAchievement[];
+  _count: {
+    notifications: number;
+  };
 };
 
 export type TMetaCount = {
@@ -129,32 +133,32 @@ export interface User {
   registeredId: string;
 }
 
-export type TBadges = {
-  currentBadge: TBadge | null;
-  upComingBadge: TBadge | null;
-  progressToNext: number;
-  data: TBadge[];
-};
+//export type TBadges = {
+//  currentBadge: TBadge | null;
+//  upComingBadge: TBadge | null;
+//  progressToNext: number;
+//  data: TBadge[];
+//};
 
-export type TBadge = {
-  id: string;
-  name: string;
-  dealCount: number;
-  description: string;
-  icon: string;
-  iconPath: string;
-  createdAt: string;
-  updatedAt: string;
-};
+//export type TBadge = {
+//  id: string;
+//  name: string;
+//  dealCount: number;
+//  description: string;
+//  icon: string;
+//  iconPath: string;
+//  createdAt: string;
+//  updatedAt: string;
+//};
 
-export type TLeague = {
-  id: string;
-  name: string;
-  dealAmount: number;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-};
+//export type TLeague = {
+//  id: string;
+//  name: string;
+//  dealAmount: number;
+//  description: string;
+//  createdAt: string;
+//  updatedAt: string;
+//};
 
 export type TSettings = {
   id: string;
@@ -171,6 +175,75 @@ export type TNotification = {
   data: any;
   link: null | string;
   isRead: false;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TAchievement = {
+  id: string;
+  userId: string;
+  achievementId: string;
+  createdAt: string;
+  updatedAt: string;
+  achievement: {
+    id: string;
+    name: string;
+    salesCount: number;
+    dealCount: number;
+    revenue: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+};
+
+export interface TPrize {
+  id: string;
+  name: string;
+  month: number;
+  year: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  entries: Entry[];
+}
+
+export type TSinglePrizeData = {
+  id: string;
+  name: string;
+  month: number;
+  year: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  entries: Entry[];
+
+  topUsers: {
+    id: string;
+    name: string;
+    profilePicture: string;
+    salesCount: number;
+    dealCount: number;
+    dealClosedCount: number;
+  }[];
+};
+
+export interface Entry {
+  id: string;
+  rank: number;
+  name: string;
+  icon: string;
+  prizeId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type TPromotion = {
+  id: string;
+  title: string;
+  emails: string[];
+  datetime: string;
+  message: string;
+  isTrigger: boolean;
   createdAt: string;
   updatedAt: string;
 };

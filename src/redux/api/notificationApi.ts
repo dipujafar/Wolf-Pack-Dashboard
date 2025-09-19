@@ -25,7 +25,7 @@ const settingsApi = baseApi.injectEndpoints({
         method: "PATCH",
         // after trigger this api then all notification will be seen
       }),
-      invalidatesTags: [tagTypes.notification],
+      invalidatesTags: [tagTypes.notification, tagTypes.user],
     }),
     deleteNotification: builder.mutation({
       query: (id) => ({
@@ -39,7 +39,7 @@ const settingsApi = baseApi.injectEndpoints({
         url: "/notification",
         method: "DELETE",
       }),
-      invalidatesTags: [tagTypes.notification],
+      invalidatesTags: [tagTypes.notification, tagTypes.user],
     }),
     testNotification: builder.mutation({
       query: () => ({
@@ -50,7 +50,6 @@ const settingsApi = baseApi.injectEndpoints({
     }),
   }),
 });
-
 export const {
   useGetNotificationsQuery,
   useSeenNotificationMutation,
@@ -58,3 +57,5 @@ export const {
   useDeleteAllNotificationsMutation,
   useTestNotificationMutation,
 } = settingsApi;
+
+export const notificationApi = settingsApi;

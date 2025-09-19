@@ -6,6 +6,7 @@ import {
   Award,
   ChartColumnIncreasing,
   ClipboardList,
+  Handshake,
   ListChecks,
   LogOut,
   Star,
@@ -31,6 +32,11 @@ export const navLinks = [
     label: <Link href={"/admin/client"}>Clients Management</Link>,
   },
   {
+    key: "deals",
+    icon: <Handshake size={18} />,
+    label: <Link href={"/admin/deals"}>Deals Approval</Link>,
+  },
+  {
     key: "tracks-sales",
     icon: <ChartColumnIncreasing size={18} />,
     label: <Link href={"/admin/tracks-sales"}>Tracks Sales</Link>,
@@ -40,11 +46,11 @@ export const navLinks = [
     icon: <Wallet size={18} />,
     label: <Link href={"/admin/earning"}>Earning</Link>,
   },
-  {
-    key: "league",
-    icon: <ClipboardList size={18} />,
-    label: <Link href={"/admin/league"}>League Management</Link>,
-  },
+  //{
+  //  key: "league",
+  //  icon: <ClipboardList size={18} />,
+  //  label: <Link href={"/admin/league"}>League Management</Link>,
+  //},
   {
     key: "prize",
     icon: (
@@ -84,11 +90,11 @@ export const navLinks = [
     ),
     label: <Link href={"/admin/prize"}>Prize Management</Link>,
   },
-  {
-    key: "manage-badge",
-    icon: <Award size={18} />,
-    label: <Link href={"/admin/manage-badge"}>Manage Badges</Link>,
-  },
+  //{
+  //  key: "manage-badge",
+  //  icon: <Award size={18} />,
+  //  label: <Link href={"/admin/manage-badge"}>Manage Badges</Link>,
+  //},
   {
     key: "settings",
     icon: <IoSettingsOutline size={18} />,

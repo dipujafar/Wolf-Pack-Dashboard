@@ -19,6 +19,7 @@ export const tagTypes = {
   badge: "badge",
   prize: "prize",
   prizes: "prizes",
+  promotion: "promotion",
 };
 
 export const tagTypesList = [
@@ -41,4 +42,5 @@ export const tagTypesList = [
   tagTypes.badge,
   tagTypes.prize,
   tagTypes.prizes,
+  tagTypes.promotion,
 ];

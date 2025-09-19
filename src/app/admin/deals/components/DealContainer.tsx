@@ -1,23 +1,42 @@
 "use client";
-import { useGetAllClosersQuery } from "@/redux/api/closerApi";
+import { Button } from "@/components/ui/button";
+import { Error_Modal, Success_model } from "@/lib/utils";
+import { useGetAllClosersQuery, useUpdateCloserMutation } from "@/redux/api/closerApi";
 import { useDebounced } from "@/redux/hooks";
 import { TCloser, TResponse } from "@/types";
 import DataTable from "@/utils/DataTable";
-import { Button, Input, type TableProps } from "antd";
-import { Download, Search } from "lucide-react";
+import { Input, type TableProps } from "antd";
+import { Download, Eye, Search } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const EarningTable = () => {
+const DealContainer = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(11);
   const [search, setSearch] = useState("");
   const searchTerm = useDebounced({ value: search, delay: 300 });
 
+  const router = useRouter();
+
+  const [updateCloser, { isLoading: isUpdating }] = useUpdateCloserMutation();
+
+  const handleUpdateCloser = async ({ id, status }: { id: string; status: string }) => {
+    try {
+      await updateCloser({ id, data: { status } }).unwrap();
+      Success_model({ title: "Closer updated successfully" });
+      router.push("/admin/deals");
+    } catch (error: any) {
+      console.log(error);
+      Error_Modal({ title: error?.data?.message });
+    }
+  };
+
   const { data, isLoading } = useGetAllClosersQuery([
     { label: "page", value: page.toString() },
     { label: "limit", value: pageSize.toString() },
     { label: "searchTerm", value: searchTerm.toString() },
-    { label: "status", value: "CLOSED" },
+    { label: "status", value: "OPEN" },
   ]);
 
   const closerData = data?.data as TResponse<TCloser[]>;
@@ -84,6 +103,26 @@ const EarningTable = () => {
             minute: "2-digit",
           })}
         </span>
+      ),
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      //align: "center",
+      render: (_, record) => (
+        <div className='text-white flex items-center gap-x-4'>
+          <Link href={`/admin/deals/${record.id}`}>
+            <Eye size={22} color='#78C0A8' className='cursor-pointer' />
+          </Link>
+          <Button
+            onClick={() => handleUpdateCloser({ id: record.id, status: "CLOSED" })}
+            size={"sm"}
+            disabled={isUpdating}
+            className='bg-green-600 border-green-600 hover:bg-green-700'
+          >
+            Approve Deal
+          </Button>
+        </div>
       ),
     },
   ];
@@ -158,9 +197,9 @@ const EarningTable = () => {
           />*/}
           <Button
             className='!bg-[#FCB806] !text-black !font-semibold !py-3 !h-12'
-            icon={<Download size={18} />}
             onClick={handleExport}
           >
+            <Download size={18} />
             Export
           </Button>
         </div>
@@ -185,4 +224,4 @@ const EarningTable = () => {
   );
 };
 
-export default EarningTable;
+export default DealContainer;

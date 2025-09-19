@@ -1,6 +1,4 @@
-import { GownIcon } from "@/icons";
 import { cn } from "@/lib/utils";
-import React from "react";
 
 const EarningStatContainer = () => {
   return (
